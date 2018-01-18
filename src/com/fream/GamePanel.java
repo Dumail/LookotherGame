@@ -7,7 +7,6 @@ package com.fream;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -24,7 +23,7 @@ import javax.swing.Timer;
 import com.algorithm.PathAlgo;
 import com.icons.IconManager;
 import com.model.Line;
-import com.model.PanelInfo;
+import com.model.LineDrawer;
 import com.model.PathPoint;
 import com.model.Picture;
 
@@ -38,8 +37,15 @@ public class GamePanel extends JPanel implements ActionListener
     private static final long serialVersionUID = 5556509107728753988L;
 
     java.util.List<Line> lines = new ArrayList<Line>();// 路径线列表
-    public PanelInfo gameinfo;// 游戏窗体相关信息
-    int level = gameinfo.getLevel();
+    public int width = 70;// 游戏图片的宽度
+    public int height = 70;// 游戏图片的高度
+    public int rows, columns;// 图片行数和列数
+    private int panelWidth, panelHeight;// 游戏主面板宽度和高度
+    public int BORDER = 1;// 游戏图片间的间距
+    private int level = 1;// 游戏关数
+    public int left, top;// 游戏图片的开始排列的位置
+    private int lenght;// 游戏图片的种类数
+    private int kind;// 游戏图片的种类
     // 游戏背景图片
     Image image = new ImageIcon("res/icons/bg11.jpg").getImage();
     // 游戏暂停背景图片
@@ -58,14 +64,28 @@ public class GamePanel extends JPanel implements ActionListener
     private Image offImage;// 双缓冲图像
     boolean pause;// 暂停标志
 
-    public GamePanel()
+    /**
+     * 初始化游戏主界面
+     * 
+     * @param rows 游戏图片的行数
+     * @param columns 游戏图片的列数
+     * @param lenght 游戏图片的种类数
+     * @param kind 游戏图片的种类
+     */
+    public GamePanel(int rows, int columns, int lenght, int kind)
     {
-        gameinfo = new PanelInfo(70, 70, 8, 10, 800, 700, 1, 1);
-        ibs = IconManager.getRandomIcons(gameinfo, gameinfo.getRows() * gameinfo.getColumns(),
-                maps);// 获取随机游戏图片列表
-        this.setPictures(new Picture[gameinfo.getRows()][gameinfo.getColumns()]);
+        this.rows = rows;
+        this.columns = columns;
+        this.panelWidth = columns * 80;
+        this.panelHeight = rows * 90 - 20;
+        this.lenght = lenght;
+        this.kind = kind;
 
+        left = (panelWidth - BORDER - columns * (width + 1)) / 2;// 计算游戏图片开始排列的左边坐标
+        top = (panelHeight - BORDER - (height + 1) * rows) / 2;// 计算游戏图片开始排列的顶部坐标
 
+        ibs = IconManager.getRandomIcons(this, lenght, kind, rows * columns, maps);// 获取随机游戏图片列表
+        this.pictures = new Picture[rows][columns];
         initPictures();// 排列游戏图片组并初始化
 
         this.addMouseListener(new MouseAdapter() {
@@ -77,7 +97,7 @@ public class GamePanel extends JPanel implements ActionListener
                     {// 之前有点击则不将它选中，并清除其储存的信息
                         front_click.setSelected(false);
                         front_click = null;
-                        repaint();// 重绘
+                        repaint();// 重绘，去除其选中特效
                     }
                     return;
                 }
@@ -91,6 +111,23 @@ public class GamePanel extends JPanel implements ActionListener
         });
     }
 
+    /**
+     * 将已获得的游戏图片列表放入游戏图片数组，
+     */
+    private void initPictures()
+    {
+        List<Picture> list = new ArrayList<Picture>(ibs);// 创建一个游戏图片列表的副本，便于重新排序
+        // 随机将列表中的游戏图片加入到游戏图片数组，并设置其行和列数
+        for (int row = 0; row < pictures.length; row++)
+        {
+            for (int col = 0; col < pictures[row].length; col++)
+            {
+                pictures[row][col] = list.remove((int) (Math.random() * list.size()));// 通过remove动态的确定随机范围
+                pictures[row][col].setRow(row);
+                pictures[row][col].setCol(col);
+            }
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -121,6 +158,11 @@ public class GamePanel extends JPanel implements ActionListener
     }
 
 
+    /*
+     * （非 Javadoc）
+     * 
+     * @see javax.swing.JComponent#paint(java.awt.Graphics)
+     */
     @Override
     public void paint(Graphics g)
     {
@@ -139,7 +181,7 @@ public class GamePanel extends JPanel implements ActionListener
 
         super.paint(offg);
         // 在图形缓冲区绘制各个图片
-        for (Picture[] button : getPictures())
+        for (Picture[] button : pictures)
         {
             for (Picture p : button)
             {
@@ -165,7 +207,7 @@ public class GamePanel extends JPanel implements ActionListener
     }
 
     /*
-     * 绘制背景 （非 Javadoc）
+     * 非 Javadoc）
      * 
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
@@ -174,7 +216,6 @@ public class GamePanel extends JPanel implements ActionListener
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);// 绘制背景图片
-        // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 
     /**
@@ -220,24 +261,6 @@ public class GamePanel extends JPanel implements ActionListener
     }
 
     /**
-     * 将随机获得的游戏图片列表放入游戏图片数组
-     */
-    private void initPictures()
-    {
-        List<Picture> list = new ArrayList<Picture>(ibs);// 创建一个游戏图片列表的副本
-        // 随机将列表中的游戏图片加入到游戏图片数组，并设置其行和列数
-        for (int row = 0; row < getPictures().length; row++)
-        {
-            for (int col = 0; col < getPictures()[row].length; col++)
-            {
-                getPictures()[row][col] = list.remove((int) (Math.random() * list.size()));// 通过remove动态的确定随机范围
-                getPictures()[row][col].setRow(row);
-                getPictures()[row][col].setCol(col);
-            }
-        }
-    }
-
-    /**
      * 获取点击到的图片对象
      *
      * @param e
@@ -251,9 +274,9 @@ public class GamePanel extends JPanel implements ActionListener
         {
             return null;
         }
-        int row = (y - gameinfo.getTop()) / (gameinfo.getBORDER() + gameinfo.getHeight());// 将坐标转换为行数
-        int col = (x - gameinfo.getLeft()) / (gameinfo.getBORDER() + gameinfo.getWidth());// 将坐标转换为列数
-        return getPictures()[row][col];
+        int row = (y - top) / (BORDER + height);// 将坐标转换为行数
+        int col = (x - left) / (BORDER + width);// 将坐标转换为列数
+        return pictures[row][col];
     }
 
     /**
@@ -266,120 +289,28 @@ public class GamePanel extends JPanel implements ActionListener
     {
         int x = e.getX();
         int y = e.getY();
-        int right = gameinfo.getLeft()
-                + gameinfo.getColumns() * (gameinfo.getBORDER() + gameinfo.getWidth());
-        int bottom = gameinfo.getTop()
-                + gameinfo.getRows() * (gameinfo.getBORDER() + gameinfo.getHeight());
+        int right = left + columns * (BORDER + width);
+        int bottom = top + rows * (BORDER + height);
 
-        return x <= gameinfo.getLeft() || x - right >= 0 || y <= gameinfo.getTop() || y - bottom >= 0;
+        return x <= left || x - right >= 0 || y <= top || y - bottom >= 0;
     }
 
+
+    /**
+     * 判断是否完成次游戏关卡
+     */
     public void isFinished()
     {
         if (maps.size() > 0)
         {
             return;
         }
-        JOptionPane.showMessageDialog(this, "进入" + level + "关");
-        level++;
-        ibs.clear();
-        ibs = IconManager.getRandomIcons(gameinfo, gameinfo.getRows() * gameinfo.getColumns(),
-                maps);
+        JOptionPane.showMessageDialog(this, "恭喜你，进入第" + level + "关");
+        level++;// 关卡加一
+        ibs.clear();// 清除游戏图片列表
+        ibs = IconManager.getRandomIcons(this, lenght, kind, rows * columns, maps);// 重新获取随机游戏图片列表
         initPictures();
     }
-
-    /**
-     * ����
-     *
-     * @param p
-     * @param flag
-     */
-    public void down(Picture p, boolean flag)
-    {
-        int row = p.getRow();
-        int col = p.getCol();
-        while (true)
-        {
-            if (row <= 0)
-            {
-                break;
-            }
-            Picture up = getPictures()[row - 1][col];
-            if (up.isVisible() || flag)
-            {
-                getPictures()[row - 1][col] = p;
-                getPictures()[row][col] = up;
-                up.setRow(row);
-                row--;
-            } else
-            {
-                break;
-            }
-        }
-    }
-
-    /**
-     * ���к������
-     */
-    public void downAll()
-    {
-        for (int col = 0; col < gameinfo.getColumns(); col++)
-        {
-            for (int row = 0; row < gameinfo.getRows(); row++)
-            {
-                if (!getPictures()[row][col].isVisible())
-                {
-                    down(getPictures()[row][col], false);
-                }
-            }
-        }
-    }
-
-    /**
-     * ����
-     *
-     * @param p
-     * @param flag
-     */
-    public void left(Picture p, boolean flag)
-    {
-        int row = p.getRow();
-        int col = p.getCol();
-        while (true)
-        {
-            if (col >= gameinfo.getColumns() - 1)
-            {
-                break;
-            }
-            Picture up = getPictures()[row][col + 1];
-            if (up.isVisible() || flag)
-            {
-                getPictures()[row][col + 1] = p;
-                getPictures()[row][col] = up;
-                up.setCol(col);
-                col++;
-            } else
-            {
-                break;
-
-            }
-        }
-    }
-
-    public void leftAll()
-    {
-        for (int row = 0; row < gameinfo.getRows(); row++)
-        {
-            for (int col = gameinfo.getColumns() - 1; col >= 0; col--)
-            {
-                if (!getPictures()[row][col].isVisible())
-                {
-                    left(getPictures()[row][col], false);
-                }
-            }
-        }
-    }
-
 
     /**
      * 获取游戏当前关卡
@@ -391,297 +322,78 @@ public class GamePanel extends JPanel implements ActionListener
         return level;
     }
 
-    // /**
-    // * 获取可以连接两个图片的点
-    // *
-    // * @param b1
-    // * @param b2
-    // * @return 满足连接条件返回路径点数组，否则返回null
-    // */
-    // public PathPoint[] getPoints(Picture b1, Picture b2)
-    // {
-    // if (b1.getRow() == b2.getRow())
-    // {// 同一行
-    // return wayRow(b1, b2);
-    // } else if (b1.getCol() == b2.getCol())
-    // {// 同一列
-    // return wayCol(b1, b2);
-    // } else
-    // {
-    // PathPoint[] cp = wayRow(b1, b2);
-    // return cp == null ? wayCol(b1, b2) : cp;
-    // }
-    // }
-    //
-    // /**
-    // * 行路径算法
-    // *
-    // * @param b1
-    // * @param b2
-    // * @return
-    // */
-    // PathPoint[] wayRow(Picture b1, Picture b2)
-    // {
-    //
-    // Picture left = b1.getCol() < b2.getCol() ? b1 : b2;// 左边的图片
-    // Picture right = (left == b1) ? b2 : b1;// 右边的图片
-    //
-    // int center = getCenter(b1.getRow(), b2.getRow());// 行数
-    // int flag = -1;
-    //
-    // row: for (int i = 0; i < gameinfo.getRows() + 2; i++)
-    // {
-    // if (center + flag * i < -1)
-    // {
-    // center += 1;
-    // } else if (center + flag * i > gameinfo.getRows())
-    // {
-    // center -= 1;
-    // } else
-    // {
-    // center += flag * i;
-    // flag = -flag;
-    // }
-    //
-    // if (center > -1 && center < gameinfo.getRows())
-    // {
-    // for (int x = left.getCol(); x <= right.getCol(); x++)
-    // {
-    // String id = getPictures()[center][x].getId();
-    // if (id.equals(b1.getId()) || id.equals(b2.getId()))
-    // {
-    // continue;
-    // }
-    // if (getPictures()[center][x].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    // }
-    // int r = left.getRow();
-    //
-    // int beg = r < center ? r : center;
-    // int end = r < center ? center : r;
-    // for (int step = beg + 1; step < end; step++)
-    // {
-    // if (getPictures()[step][left.getCol()].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    //
-    // r = right.getRow();
-    // beg = r < center ? r : center;
-    // end = r < center ? center : r;
-    // for (int step = beg + 1; step < end; step++)
-    // {
-    // if (getPictures()[step][right.getCol()].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    //
-    // PathPoint[] points;
-    // if (left.getRow() == center && right.getRow() == center)
-    // {
-    // points = new PathPoint[2];
-    // points[0] = new PathPoint(left, gameinfo);
-    // points[1] = new PathPoint(right, gameinfo);
-    // } else if (left.getRow() == center)
-    // {
-    // points = new PathPoint[3];
-    // points[0] = new PathPoint(left, gameinfo);
-    // points[1] = new PathPoint(center, right.getCol(), gameinfo);
-    // points[2] = new PathPoint(right, gameinfo);
-    // } else if (right.getRow() == center)
-    // {
-    // points = new PathPoint[3];
-    // points[0] = new PathPoint(left, gameinfo);
-    // points[1] = new PathPoint(center, left.getCol(), gameinfo);
-    // points[2] = new PathPoint(right, gameinfo);
-    // } else
-    // {
-    // points = new PathPoint[4];
-    // points[0] = new PathPoint(left, gameinfo);
-    // points[1] = new PathPoint(center, left.getCol(), gameinfo);
-    // points[2] = new PathPoint(center, right.getCol(), gameinfo);
-    // points[3] = new PathPoint(right, gameinfo);
-    // }
-    //
-    // if (b2.getId().equals(left.getId()))
-    // {
-    // int length = points.length;
-    // PathPoint[] cp = new PathPoint[length];
-    // for (int index = 0; index < length; index++)
-    // {
-    // cp[index] = points[length - index - 1];
-    // }
-    // return cp;
-    // }
-    // return points;
-    // }
-    // return null;
-    // }
-    //
-    // /**
-    // * 列路径算法
-    // *
-    // * @param b1
-    // * @param b2
-    // * @return
-    // */
-    // PathPoint[] wayCol(Picture b1, Picture b2)
-    // {
-    // Picture top = b1.getRow() < b2.getRow() ? b1 : b2;
-    // Picture bottom = (top == b1) ? b2 : b1;
-    //
-    // int middle = getCenter(b1.getCol(), b2.getCol());
-    // int flag = -1;
-    //
-    // row: for (int i = 0; i < gameinfo.getColumns() + 2; i++)
-    // {
-    // if (middle + flag * i < -1)
-    // {
-    // middle += 1;
-    // } else if (middle + flag > gameinfo.getRows())
-    // {
-    // middle -= 1;
-    // } else
-    // {
-    // middle += flag * i;
-    // flag = -flag;
-    // }
-    //
-    // if (middle > -1 && middle < gameinfo.getColumns())
-    // {
-    // for (int x = top.getRow(); x <= bottom.getRow(); x++)
-    // {
-    // String id = getPictures()[x][middle].getId();
-    // if (id.equals(b1.getId()) || id.equals(b2.getId()))
-    // {
-    // continue;
-    // }
-    // if (getPictures()[x][middle].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    // }
-    // int r = top.getCol();
-    // int beg = r < middle ? r : middle;
-    // int end = r < middle ? middle : r;
-    // for (int step = beg + 1; step < end; step++)
-    // {
-    // if (getPictures()[top.getRow()][step].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    //
-    // r = bottom.getCol();
-    // beg = r < middle ? r : middle;
-    // end = r < middle ? middle : r;
-    // for (int step = beg + 1; step < end; step++)
-    // {
-    // if (getPictures()[bottom.getRow()][step].isVisible())
-    // {
-    // continue row;
-    // }
-    // }
-    //
-    // PathPoint[] points;
-    // if (top.getCol() == middle && bottom.getCol() == middle)
-    // {
-    // points = new PathPoint[2];
-    // points[0] = new PathPoint(top, gameinfo);
-    // points[1] = new PathPoint(bottom, gameinfo);
-    // } else
-    // {
-    // points = new PathPoint[4];
-    // points[0] = new PathPoint(top, gameinfo);
-    // points[1] = new PathPoint(top.getRow(), middle, gameinfo);
-    // points[2] = new PathPoint(bottom.getRow(), middle, gameinfo);
-    // points[3] = new PathPoint(bottom, gameinfo);
-    // }
-    //
-    // if (b2.getId().equals(top.getId()))
-    // {
-    // int length = points.length;
-    // PathPoint[] cp = new PathPoint[length];
-    // for (int index = 0; index < length; index++)
-    // {
-    // cp[index] = points[length - index - 1];
-    // }
-    // return cp;
-    // }
-    // return points;
-    //
-    // }
-    //
-    // return null;
-    // }
+    /**
+     * 返回游戏图片组
+     * 
+     * @return
+     */
+    public Picture[][] getPictures()
+    {
+        return pictures;
+    }
 
     /**
-     * 提示
+     * @param pictures 要设置的图片组
      */
-    public void tishi()
+    public void setPictures(Picture[][] pictures)
     {
-        Picture[] maped = getMappedButtons();
+        this.pictures = pictures;
+    }
+
+    /**
+     * 获取提示信息，并对可获取的提示绘制特效
+     */
+    public void Ghint()
+    {
+        Picture[] maped = getMappedButtons();// 获取可以连接的两个游戏图片
         if (maped == null)
         {
-            JOptionPane.showMessageDialog(this, "�����������ˣ���");
+            JOptionPane.showMessageDialog(this, "没有可用的提示，请尝试重新排序");
             return;
         }
         if (front_click != null)
         {
-            front_click.setSelected(false);
-            repaint(front_click.getX(), front_click.getY(),
-                    gameinfo.getWidth() + gameinfo.getBORDER(),
-                    gameinfo.getHeight() + gameinfo.getBORDER());
+            front_click.setSelected(false);// 清除之前的选择
+            repaint(front_click.getX(), front_click.getY(), width + BORDER, height + BORDER);// 去除选择特效
             front_click = null;
         }
+        // 选中提示的两张图片，并绘制其相关区域的特效
         maped[0].setSelected(true);
         maped[1].setSelected(true);
-        repaint(maped[0].getX(), maped[0].getY(), gameinfo.getWidth() + gameinfo.getBORDER(),
-                gameinfo.getHeight() + gameinfo.getBORDER());
-        repaint(maped[1].getX(), maped[1].getY(), gameinfo.getWidth() + gameinfo.getBORDER(),
-                gameinfo.getHeight() + gameinfo.getBORDER());
+        repaint(maped[0].getX(), maped[0].getY(), width + BORDER, height + BORDER);
+        repaint(maped[1].getX(), maped[1].getY(), width + BORDER, height + BORDER);
     }
 
     /**
-     * 重排
+     * 重排图片
      */
     public void reSort()
     {
-        initPictures();
-        switch (level)
-        {
-            case 2:
-                downAll();
-                break;
-            case 3:
-                leftAll();
-                break;
-        }
+        initPictures();// 游戏图片列表随机化
         repaint();
     }
 
+    /**
+     * 获取两个可以连接的图片
+     * 
+     * @return
+     */
     Picture[] getMappedButtons()
     {
-        for (List<Picture> l : maps.values())
+        for (List<Picture> l : maps.values())// 在相同图片列表中遍历
         {
             for (int i = 0; i < l.size(); i++)
             {
                 for (int j = i + 1; j < l.size(); j++)
                 {
-                    if (PathAlgo.getPoints(l.get(i), l.get(j), this) != null)
+                    if (PathAlgo.getPoints(l.get(i), l.get(j), this) != null)// 可以连接
                     {
                         return new Picture[] {l.get(i), l.get(j)};
                     }
                 }
             }
         }
-        return null;
+        return null;// 不可以连接则返回空
     }
 
     /**
@@ -734,95 +446,16 @@ public class GamePanel extends JPanel implements ActionListener
      */
     public void drawPath(PathPoint[] points, Picture b1, Picture b2)
     {
-        new Thread(new Drawer(this, points, b1, b2)).start();
+        new Thread(new LineDrawer(this, points, b1, b2)).start();
     }
 
     /**
-     * 返回图片
+     * 获取路径线列表
      * 
-     * @return
+     * @return lines
      */
-    public Picture[][] getPictures()
+    public java.util.List<Line> getLines()
     {
-        return pictures;
+        return lines;
     }
-
-
-    /**
-     * @param pictures 要设置的 pictures
-     */
-    public void setPictures(Picture[][] pictures)
-    {
-        this.pictures = pictures;
-    }
-
-    /**
-     * 用于动态绘制路径线的内部类，通过线程启动绘制
-     * 
-     * @author PCF
-     */
-    class Drawer implements Runnable
-    {
-        private PathPoint[] points;// 路径点数组
-        private Picture b1, b2;// 待连接的图片
-        private GamePanel panel;// 待绘制的面板
-
-        Drawer(GamePanel panel, PathPoint[] points, Picture b1, Picture b2)
-        {
-            this.points = points;
-            this.b1 = b1;
-            this.b2 = b2;
-            this.panel = panel;
-        }
-
-        @Override
-        public void run()
-        {
-            Point[] ps = new Point[points.length];// 数组储存路径点在界面中对应的坐标点
-            for (int i = 0; i < points.length; i++)
-            {
-                ps[i] = points[i].getPointOnMain();
-            }
-            int index = ps.length - 1;
-
-            transPoint(ps[0], ps[1], ps[0], 1);
-            transPoint(ps[index - 1], ps[index], ps[index], -1);
-
-            Line l = new Line(panel, ps, b1, b2);// 用路径点创建路径线
-            synchronized (GamePanel.class)
-            {
-                lines.add(l);// 将路径线加入路径线列表
-            }
-            startTimer();
-        }
-
-        void transPoint(Point p1, Point p2, Point target, int flag)
-        {
-            // 两点同一列
-            if (p1.getX() == p2.getX())
-            {
-
-                if (p1.getY() < p2.getY())
-                {
-                    target.y += flag * gameinfo.getHeight() / 2;
-                } else
-                {
-                    target.y -= flag * gameinfo.getHeight() / 2;
-                }
-            }
-            // 两点同一行
-            else
-            {
-                if (p1.getX() < p2.getX())
-                {
-                    target.x += flag * gameinfo.getWidth() / 2;
-                } else
-                {
-                    target.x -= flag * gameinfo.getWidth() / 2;
-                }
-            }
-        }
-    }
-
-
 }

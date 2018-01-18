@@ -52,12 +52,12 @@ public class PathAlgo
         int center = getCenter(b1.getRow(), b2.getRow());// 行数
         int flag = -1;
 
-        row: for (int i = 0; i < gp.gameinfo.getRows() + 2; i++)
+        row: for (int i = 0; i < gp.rows + 2; i++)
         {
             if (center + flag * i < -1)
             {
                 center += 1;
-            } else if (center + flag * i > gp.gameinfo.getRows())
+            } else if (center + flag * i > gp.rows)
             {
                 center -= 1;
             } else
@@ -66,7 +66,7 @@ public class PathAlgo
                 flag = -flag;
             }
 
-            if (center > -1 && center < gp.gameinfo.getRows())
+            if (center > -1 && center < gp.rows)
             {
                 for (int x = left.getCol(); x <= right.getCol(); x++)
                 {
@@ -108,27 +108,27 @@ public class PathAlgo
             if (left.getRow() == center && right.getRow() == center)
             {
                 points = new PathPoint[2];
-                points[0] = new PathPoint(left, gp.gameinfo);
-                points[1] = new PathPoint(right, gp.gameinfo);
+                points[0] = new PathPoint(left, gp);
+                points[1] = new PathPoint(right, gp);
             } else if (left.getRow() == center)
             {
                 points = new PathPoint[3];
-                points[0] = new PathPoint(left, gp.gameinfo);
-                points[1] = new PathPoint(center, right.getCol(), gp.gameinfo);
-                points[2] = new PathPoint(right, gp.gameinfo);
+                points[0] = new PathPoint(left, gp);
+                points[1] = new PathPoint(center, right.getCol(), gp);
+                points[2] = new PathPoint(right, gp);
             } else if (right.getRow() == center)
             {
                 points = new PathPoint[3];
-                points[0] = new PathPoint(left, gp.gameinfo);
-                points[1] = new PathPoint(center, left.getCol(), gp.gameinfo);
-                points[2] = new PathPoint(right, gp.gameinfo);
+                points[0] = new PathPoint(left, gp);
+                points[1] = new PathPoint(center, left.getCol(), gp);
+                points[2] = new PathPoint(right, gp);
             } else
             {
                 points = new PathPoint[4];
-                points[0] = new PathPoint(left, gp.gameinfo);
-                points[1] = new PathPoint(center, left.getCol(), gp.gameinfo);
-                points[2] = new PathPoint(center, right.getCol(), gp.gameinfo);
-                points[3] = new PathPoint(right, gp.gameinfo);
+                points[0] = new PathPoint(left, gp);
+                points[1] = new PathPoint(center, left.getCol(), gp);
+                points[2] = new PathPoint(center, right.getCol(), gp);
+                points[3] = new PathPoint(right, gp);
             }
 
             if (b2.getId().equals(left.getId()))
@@ -161,12 +161,12 @@ public class PathAlgo
         int middle = getCenter(b1.getCol(), b2.getCol());
         int flag = -1;
 
-        row: for (int i = 0; i < gp.gameinfo.getColumns() + 2; i++)
+        row: for (int i = 0; i < gp.columns + 2; i++)
         {
             if (middle + flag * i < -1)
             {
                 middle += 1;
-            } else if (middle + flag > gp.gameinfo.getRows())
+            } else if (middle + flag > gp.rows)
             {
                 middle -= 1;
             } else
@@ -175,7 +175,7 @@ public class PathAlgo
                 flag = -flag;
             }
 
-            if (middle > -1 && middle < gp.gameinfo.getColumns())
+            if (middle > -1 && middle < gp.columns)
             {
                 for (int x = top.getRow(); x <= bottom.getRow(); x++)
                 {
@@ -216,15 +216,15 @@ public class PathAlgo
             if (top.getCol() == middle && bottom.getCol() == middle)
             {
                 points = new PathPoint[2];
-                points[0] = new PathPoint(top, gp.gameinfo);
-                points[1] = new PathPoint(bottom, gp.gameinfo);
+                points[0] = new PathPoint(top, gp);
+                points[1] = new PathPoint(bottom, gp);
             } else
             {
                 points = new PathPoint[4];
-                points[0] = new PathPoint(top, gp.gameinfo);
-                points[1] = new PathPoint(top.getRow(), middle, gp.gameinfo);
-                points[2] = new PathPoint(bottom.getRow(), middle, gp.gameinfo);
-                points[3] = new PathPoint(bottom, gp.gameinfo);
+                points[0] = new PathPoint(top, gp);
+                points[1] = new PathPoint(top.getRow(), middle, gp);
+                points[2] = new PathPoint(bottom.getRow(), middle, gp);
+                points[3] = new PathPoint(bottom, gp);
             }
 
             if (b2.getId().equals(top.getId()))

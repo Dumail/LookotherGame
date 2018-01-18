@@ -5,6 +5,7 @@ package com.model;
 
 
 import java.awt.Point;
+import com.fream.GamePanel;
 
 /**
  * 连接游戏图片的路径点，路径也有与游戏图片一样行和列
@@ -15,28 +16,28 @@ public class PathPoint
 {
     private int row;// 行数
     private int col;// 列数
-    private PanelInfo pi;
+    private GamePanel gp;
     /**
      * 以行和列初始化路径点
      * 
      * @param row
      * @param col
      */
-    public PathPoint(int row, int col, PanelInfo pi)
+    public PathPoint(int row, int col, GamePanel gp)
     {
         this.row = row;
         this.col = col;
-        this.pi = pi;
+        this.gp = gp;
     }
     /**
      * 通过图片的行数和列数初始化路径点
      * 
      * @param ib
      */
-    public PathPoint(Picture ib, PanelInfo pi)
+    public PathPoint(Picture ib, GamePanel gp)
     {
-        this(ib.getRow(), ib.getCol(), pi);
-        this.pi = pi;
+        this(ib.getRow(), ib.getCol(), gp);
+        this.gp = gp;
     }
     /**
      * 返回一个路径点对象在游戏窗体中的坐标点
@@ -45,8 +46,8 @@ public class PathPoint
      */
     public Point getPointOnMain()
     {
-        return new Point(pi.getLeft() + col * (pi.getWidth() + pi.getBORDER()) + pi.getWidth() / 2,
-                pi.getTop() + row * (pi.getHeight() + pi.getBORDER()) + pi.getHeight() / 2);
+        return new Point(gp.left + col * (gp.width + gp.BORDER) + gp.width / 2,
+                gp.top + row * (gp.height + gp.BORDER) + gp.height / 2);
     }
     /*
      * 打印路径点所在的行数和列数 （非 Javadoc）

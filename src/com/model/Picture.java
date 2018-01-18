@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import com.fream.GamePanel;
 
 
 /**
@@ -29,35 +30,7 @@ public class Picture
     private boolean selected;// 是否被选中
     private Color bgColor;// 背景颜色
     private String id;// 编号，随机生成图片时递增生成
-    private PanelInfo pi;
-
-    /**
-     * 以显示图片和图片编号初始化对象
-     * 
-     * @param img
-     * @param id
-     */
-    public Picture(Image img, String id, PanelInfo pi)
-    {
-        this.img = img;
-        this.id = id;
-        this.pi = pi;
-    }
-
-    /**
-     * 以行数，列数以及显示的图片初始化对象
-     * 
-     * @param row
-     * @param col
-     * @param img
-     */
-    public Picture(int row, int col, Image img, PanelInfo pi)
-    {
-        this.x = row;
-        this.y = col;
-        this.img = img;
-        this.pi = pi;
-    }
+    private GamePanel gp;
     /**
      * 获取图片行数
      * 
@@ -76,7 +49,7 @@ public class Picture
     public void setRow(int row)
     {
         this.row = row;
-        this.y = pi.getTop() + row * (pi.getHeight() + 1);
+        this.y = gp.top + row * (gp.height + 1);
     }
 
     /**
@@ -97,7 +70,7 @@ public class Picture
     public void setCol(int col)
     {
         this.col = col;
-        this.x = pi.getLeft() + col * (pi.getWidth() + 1);
+        this.x = gp.left + col * (gp.width + 1);
     }
 
     /**
@@ -118,6 +91,19 @@ public class Picture
     public void setId(String id)
     {
         this.id = id;
+    }
+
+    /**
+     * 以显示图片和图片编号初始化对象
+     * 
+     * @param img
+     * @param id
+     */
+    public Picture(Image img, String id, GamePanel gp)
+    {
+        this.img = img;
+        this.id = id;
+        this.gp = gp;
     }
 
     /**
@@ -193,6 +179,22 @@ public class Picture
     }
 
     /**
+     * 以行数，列数以及显示的图片初始化对象
+     * 
+     * @param row
+     * @param col
+     * @param img
+     */
+    public Picture(int row, int col, Image img, GamePanel gp)
+    {
+        this.x = row;
+        this.y = col;
+        this.img = img;
+        this.gp = gp;
+    }
+
+
+    /**
      * 获取背景颜色
      * 
      * @return
@@ -224,31 +226,27 @@ public class Picture
             return;// 只有游戏图片允许被显示才能被显示
         }
         Graphics2D g2d = (Graphics2D) g;
-        if (bgColor != null)
-        {// 有背景颜色时设置画笔的背景颜色
+        if (bgColor != null)// 有背景颜色时设置画笔的背景颜色
+        {
             g2d.setColor(bgColor);
-            g2d.fillRect(x, y, pi.getWidth(), pi.getHeight());// 绘制游戏图片的背景
+            g2d.fillRect(x, y, gp.width, gp.height);// 绘制游戏图片的背景
         }
-        g2d.setStroke(new BasicStroke(pi.getBORDER()));// 设置画笔的粗细以绘制边框
+        g2d.setStroke(new BasicStroke(gp.BORDER));// 设置画笔的粗细以绘制边框
         g2d.setColor(new Color(182, 171, 180));// 设置画笔颜色
-        // if (x == pi.left) {
-        g2d.drawLine(x, y, x, y + pi.getHeight());// 绘制游戏图片的四边边框
-        // }
-        // if (y == pi.top) {
-        g2d.drawLine(x, y, x + pi.getWidth(), y);
-        // }
-        g2d.drawLine(x + pi.getBORDER(), y + pi.getHeight() + pi.getBORDER(),
-                x + pi.getWidth() + pi.getBORDER(), y + pi.getHeight() + pi.getBORDER());
-        g2d.drawLine(x + pi.getWidth() + pi.getBORDER(), y + pi.getBORDER(),
-                x + pi.getWidth() + pi.getBORDER(), y + pi.getHeight() + pi.getBORDER());
+        g2d.drawLine(x, y, x, y + gp.height);// 绘制游戏图片的四边边框
+        g2d.drawLine(x, y, x + gp.width, y);
+        g2d.drawLine(x + gp.BORDER, y + gp.height + gp.BORDER, x + gp.width + gp.BORDER,
+                y + gp.height + gp.BORDER);
+        g2d.drawLine(x + gp.width + gp.BORDER, y + gp.BORDER, x + gp.width + gp.BORDER,
+                y + gp.height + gp.BORDER);
 
         g2d.drawImage(img, x, y, null);
         if (selected)
         {// 如果被选中要绘制特殊效果
             Color color = Color.GREEN;// 以红色的半透明矩形覆盖
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));// 不透明度50%
             g2d.setColor(color);
-            g2d.fillRect(x + pi.getBORDER(), y + pi.getBORDER(), pi.getWidth(), pi.getHeight());
+            g2d.fillRect(x + gp.BORDER, y + gp.BORDER, gp.width, gp.height);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));// 取消半透明效果
         }
 

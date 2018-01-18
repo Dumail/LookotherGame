@@ -90,7 +90,7 @@ public class StatusPanel extends JPanel
     {
 
         this.tishi.setText("提示x" + (--times_tishi));
-        gpGamePanel.tishi();
+        gpGamePanel.Ghint();
         if (times_tishi <= 0)
         {
             this.tishi.setEnabled(false);
@@ -135,7 +135,7 @@ public class StatusPanel extends JPanel
                 new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
                         "", javax.swing.border.TitledBorder.CENTER,
                         javax.swing.border.TitledBorder.BOTTOM,
-                        new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red),
+                        new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 12), java.awt.Color.red),
                 getBorder()));
         // 注册事件监听器
         addPropertyChangeListener(new java.beans.PropertyChangeListener()
@@ -195,7 +195,7 @@ public class StatusPanel extends JPanel
             // 暂停
             stop.setText("暂停");
             stop.setIcon(null);
-            stop.setFont(new Font("宋体", Font.BOLD, 12));
+            stop.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
             stop.addActionListener(new ActionListener()
             {
                 @Override
@@ -209,7 +209,7 @@ public class StatusPanel extends JPanel
 
             // 提示
             tishi.setText("提示×3");
-            tishi.setFont(new Font("宋体", Font.BOLD, 12));
+            tishi.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
             tishi.addActionListener(new ActionListener()
             {
                 @Override
@@ -223,7 +223,7 @@ public class StatusPanel extends JPanel
 
             // resort
             resort.setText("重排×3");
-            resort.setFont(new Font("宋体", Font.BOLD, 12));
+            resort.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
             resort.setIcon(
                     new ImageIcon("/res/icons/png-0616.png"));
             resort.addActionListener(new ActionListener()

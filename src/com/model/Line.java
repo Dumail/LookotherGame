@@ -132,22 +132,6 @@ public class Line
         {// 绘制成功后消除两个游戏图片
             b1.setVisible(false);
             b2.setVisible(false);
-            switch (gpGamePanel.getLevel())
-            {// 根据关卡数判断是否让图片移动
-                case 2:
-                {
-                    gpGamePanel.down(b1, true);
-                    gpGamePanel.down(b2, true);
-                    break;
-                }
-                case 3:
-                {
-                    gpGamePanel.left(b1, true);
-                    gpGamePanel.left(b2, true);
-                    break;
-                }
-            }
-            // panel.isFinished();
         }
         index++;
 
