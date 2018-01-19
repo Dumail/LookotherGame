@@ -14,6 +14,7 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.SubstanceCremeLookAndFeel;
 import org.jvnet.substance.theme.SubstanceBarbyPinkTheme;
 import com.icons.GifDrawer;
+import com.model.Music;
 
 /**
  * 调用各级界面
@@ -39,6 +40,8 @@ public class MainFream extends JFrame
                     GifDrawer gifDrawer = new GifDrawer(frame.getGraphics(), 1, 10);
                     Thread t = new Thread(gifDrawer);
                     t.start();
+                    Music aMusic = new Music("bg1");
+                    aMusic.loap();
                 } catch (Exception e)
                 {
                     e.printStackTrace();
