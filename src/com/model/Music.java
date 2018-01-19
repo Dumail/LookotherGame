@@ -54,7 +54,7 @@ public class Music
     /**
      * 循环播放音频
      */
-    public void loap()
+    public void loop()
     {
         audioClip.loop();
     }

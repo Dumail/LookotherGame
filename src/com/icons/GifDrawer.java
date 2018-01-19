@@ -8,32 +8,55 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 /**
- * gif动图绘制，将gif各帧放入gif文件夹，此类会每隔一段时间绘制一帧 注意，开启此线程需要在组件可以显示后，否则会引起空异常
+ * gif动图绘制，将gif各帧放入gif文件夹，此类会每隔一段时间绘制一帧,且只能绘制不透明动画 注意，开启此线程需要在组件可以显示后，否则会引起空异常
  * 
  * @author PCF
  */
 public class GifDrawer implements Runnable
 {
     private Image[] icons;// 图片数组
-    private String folder = "res/gif";// gif文件夹
-    private int i = 0;
-    private int num;// 图片总数
-    private int times = 100;// 每帧图片显示时间
-    private Graphics2D g2d;// 画笔
-    private boolean isPaly = true;// 是否播放
-
+    private String gifFolder;// gif文件夹
+    protected int i = 0;
+    protected int num;// 图片总数
+    protected int times = 100;// 每帧图片显示时间
+    protected Graphics2D g2d;// 画笔
+    protected boolean isPaly = true;// 是否播放
+    protected boolean isloop = false;
+    protected int x;// 播放的坐标
+    protected int y;
+    
     /**
+     * 初始化gif动画
      * 
-     * 
+     * @param x 坐标
+     * @param y
      * @param g 绘制用的画笔
      * @param kind gif图片文件夹的编号
      * @param num 图片总数
      */
-    public GifDrawer(Graphics g, int kind, int num)
+    public GifDrawer(Graphics g, int x, int y, int kind, int num)
     {
+        this("res/gif", g, x, y, kind, num);
+    }
+
+    /**
+     * 初始化动画图片组
+     * 
+     * @param folder 指定gif动画的文件夹
+     * @param g
+     * @param x
+     * @param y
+     * @param kind
+     * @param num
+     */
+    public GifDrawer(String folder, Graphics g, int x, int y, int kind, int num)
+    {
+        this.gifFolder = folder;// 设置gif文件夹
         g2d = (Graphics2D) g;
         this.num = num;
-        IconManager.setFolder(folder);// 设置图片管理器文件夹为gif
+        this.x = x;
+        this.y = y;
+        IconManager.setFolder(gifFolder);// 设置图片管理器文件夹为gif
         icons = IconManager.getIcons(num, kind);// 获取gif(kind)文件夹中的各帧图片
         IconManager.setFolder("res/pics");// 重新设置图片管理器的文件夹
     }
@@ -41,7 +64,7 @@ public class GifDrawer implements Runnable
     public void paint(Graphics g)
     {
         // TODO 画出一帧图片
-        g2d.drawImage(icons[i], 0, 0, null);
+        g2d.drawImage(icons[i], x, y, null);
     }
     /* （非 Javadoc）
      * @see java.lang.Runnable#run()
@@ -49,13 +72,16 @@ public class GifDrawer implements Runnable
     @Override
     public void run()
     {
-        // TODO 自动生成的方法存根
-        while (isPaly)
+        while (isPaly)// 控制是否继续播放
         {
             if (i <= num - 1)
                 i++;
             if (i > num - 1)
+            {
                 i = 0;
+                if (!isloop)// 循环一次后停止播放
+                    isPaly = false;
+            }
             try
             {
                 Thread.sleep(times);
@@ -66,6 +92,14 @@ public class GifDrawer implements Runnable
             }
             this.paint(g2d);
         }
+    }
+
+    /**
+     * 开始播放
+     */
+    public void play()
+    {
+        new Thread(this).start();
     }
 
     /**
@@ -104,4 +138,20 @@ public class GifDrawer implements Runnable
         this.times = times;
     }
 
+    /**
+     * 循环播放动画
+     */
+    public void loop()
+    {
+        isloop = true;
+        play();
+    }
+
+    /**
+     * 停止播放动画
+     */
+    public void stop()
+    {
+        setPaly(false);
+    }
 }

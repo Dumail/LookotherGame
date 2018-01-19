@@ -24,6 +24,7 @@ import com.algorithm.PathAlgo;
 import com.icons.IconManager;
 import com.model.Line;
 import com.model.LineDrawer;
+import com.model.Music;
 import com.model.PathPoint;
 import com.model.Picture;
 
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements ActionListener
     Image image = new ImageIcon("res/icons/bg11.jpg").getImage();
     // 游戏暂停背景图片
     Image img_stop = new ImageIcon("res/icons/stop.jpg").getImage();
+    private Music bgMusic = new Music("bg1");
 
 
     Timer timer;// 计时器对象
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements ActionListener
         this.panelHeight = rows * 90 - 20;
         this.lenght = lenght;
         this.kind = kind;
+        bgMusic.loop();
 
         left = (panelWidth - BORDER - columns * (width + 1)) / 2;// 计算游戏图片开始排列的左边坐标
         top = (panelHeight - BORDER - (height + 1) * rows) / 2;// 计算游戏图片开始排列的顶部坐标
@@ -403,6 +406,10 @@ public class GamePanel extends JPanel implements ActionListener
      */
     public void pause(boolean b)
     {
+        if (!pause)
+            bgMusic.stop();
+        else
+            bgMusic.loop();
         pause = b;
         repaint();
     }

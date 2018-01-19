@@ -24,10 +24,9 @@ public class Line
     int index = 0;
     boolean flag = false;// 是否绘制成功
     Picture b1, b2;// 待连接的两个图片
-    Color c1 = new Color(189, 24, 231);// 设置路线的颜色
+    static Color c1 = new Color(27, 190, 186);// 设置路线的颜色
     Color c2 = Color.white;// 渐变颜色
-    private GamePanel gpGamePanel;// 待绘制的面板
-
+    GamePanel gp;
     /**
      * 初始化路径线，确定其位置
      * 
@@ -38,10 +37,10 @@ public class Line
      */
     public Line(GamePanel p, Point[] points, Picture b1, Picture b2)
     {
+        this.gp = p;
         this.points = points;
         this.b1 = b1;
         this.b2 = b2;
-        this.gpGamePanel = p;
     }
 
     /**
@@ -128,12 +127,13 @@ public class Line
             }
 
         }
-        if (flag)
-        {// 绘制成功后消除两个游戏图片
+        if (flag)// 绘制成功后消除两个游戏图片
+        {
             b1.setVisible(false);
             b2.setVisible(false);
         }
         index++;
 
     }
+
 }

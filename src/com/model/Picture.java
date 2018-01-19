@@ -271,5 +271,15 @@ public class Picture
     {
         this.selected = b;
     }
+
+    /**
+     * 获取游戏图片的面板
+     * 
+     * @return gp
+     */
+    public GamePanel getGp()
+    {
+        return gp;
+    }
 }
 

@@ -13,8 +13,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.SubstanceCremeLookAndFeel;
 import org.jvnet.substance.theme.SubstanceBarbyPinkTheme;
-import com.icons.GifDrawer;
-import com.model.Music;
 
 /**
  * 调用各级界面
@@ -37,11 +35,6 @@ public class MainFream extends JFrame
                 {
                     MainFream frame = new MainFream();
                     frame.setVisible(true);
-                    GifDrawer gifDrawer = new GifDrawer(frame.getGraphics(), 1, 10);
-                    Thread t = new Thread(gifDrawer);
-                    t.start();
-                    Music aMusic = new Music("bg1");
-                    aMusic.loap();
                 } catch (Exception e)
                 {
                     e.printStackTrace();
@@ -61,11 +54,10 @@ public class MainFream extends JFrame
         setSize(800, 760);
         setResizable(false);// 设置不可自由改变窗口大小
         getContentPane().setLayout(new BorderLayout());
-        // GamePanel aGamePanel = new GamePanel(8, 10, 21, 1);
-        // getContentPane().add(aGamePanel, BorderLayout.CENTER);
-        // StatusPanel aStatusPanel = new StatusPanel(aGamePanel);
-        // getContentPane().add(aStatusPanel, BorderLayout.NORTH);
-
+        GamePanel aGamePanel = new GamePanel(8, 10, 24, 1);
+        getContentPane().add(aGamePanel, BorderLayout.CENTER);
+        StatusPanel aStatusPanel = new StatusPanel(aGamePanel);
+        getContentPane().add(aStatusPanel, BorderLayout.NORTH);
     }
 
     /**
