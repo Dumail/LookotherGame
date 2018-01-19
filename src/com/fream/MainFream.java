@@ -13,6 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.skin.SubstanceCremeLookAndFeel;
 import org.jvnet.substance.theme.SubstanceBarbyPinkTheme;
+import com.icons.GifDrawer;
 
 /**
  * 调用各级界面
@@ -35,6 +36,9 @@ public class MainFream extends JFrame
                 {
                     MainFream frame = new MainFream();
                     frame.setVisible(true);
+                    GifDrawer gifDrawer = new GifDrawer(frame.getGraphics(), 1, 10);
+                    Thread t = new Thread(gifDrawer);
+                    t.start();
                 } catch (Exception e)
                 {
                     e.printStackTrace();

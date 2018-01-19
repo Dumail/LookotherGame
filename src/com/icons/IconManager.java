@@ -107,4 +107,12 @@ public class IconManager
         }
         return false;
     }
+
+    /**
+     * @param folder 要设置的 folder
+     */
+    public static void setFolder(String folder)
+    {
+        IconManager.folder = folder;
+    }
 }
