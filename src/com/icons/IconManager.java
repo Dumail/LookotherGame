@@ -23,7 +23,7 @@ public class IconManager
 {
     static int width;
     static int height;
-    static Image[] icons;// 图片数组
+    private static Image[] icons;// 图片数组
     static String folder = "res/pics";
 
     /**
@@ -70,16 +70,16 @@ public class IconManager
             Map<String, java.util.List<Picture>> maps)
     {
         java.util.List<Picture> iconlist = new LinkedList<Picture>();
-        if (icons == null)
+        if (getIcons() == null)
         {// 如果没有图片组，则获取
-            icons = getIcons(length, kind);
+            setIcons(getIcons(length, kind));
         }
-        int size = icons.length;// 图片总数
+        int size = getIcons().length;// 图片总数
         int number = 0;// 游戏图片ID
         maps.clear();// 清除所有映射
         for (int i = 0; i < numbers / 2; i++)
         {
-            Image icon = icons[(int) (Math.random() * size)];// 在图片组中随机取一个图片
+            Image icon = getIcons()[(int) (Math.random() * size)];// 在图片组中随机取一个图片
             Picture p1 = new Picture(icon, number++ + "", gp);
             Picture p2 = new Picture(icon, number++ + "", gp);// 一次生成两个
             java.util.List<Picture> lists = maps.get(icon.toString());// 返回图片所对应的游戏图片列表
@@ -114,5 +114,21 @@ public class IconManager
     public static void setFolder(String folder)
     {
         IconManager.folder = folder;
+    }
+
+    /**
+     * @return icons
+     */
+    public static Image[] getIcons()
+    {
+        return icons;
+    }
+
+    /**
+     * @param icons 要设置的 icons
+     */
+    public static void setIcons(Image[] icons)
+    {
+        IconManager.icons = icons;
     }
 }

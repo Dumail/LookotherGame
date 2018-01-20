@@ -5,14 +5,10 @@ package com.fream;
 
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,13 +25,14 @@ public class StatusPanel extends JPanel
     private long time = 600 * 1000; // 限定时间十分钟
     private GamePanel gpGamePanel; //游戏主界面
     private boolean stoped = false;
-    private int times_tishi = 3;// 提示次数
+    private int times_hint = 3;// 提示次数
     private int times_resort = 3;// 重排次数
     // 信息界面组件：
     private JPanel panel1;
     private JButton button1;
     private JButton button2;
-    private JLabel label5;
+    private JLabel label1;
+    private JLabel label2;// 得分
     private JSlider slider1;
     private JPanel vSpacer1;
     private JPanel panel2;
@@ -43,7 +40,6 @@ public class StatusPanel extends JPanel
     private JButton stop;// 暂停按钮
     private JButton tishi;// 提示按钮
     private JButton resort;// 重排按钮
-
 
     public StatusPanel(GamePanel path)
     {
@@ -86,32 +82,47 @@ public class StatusPanel extends JPanel
         this.gpGamePanel = path;
     }
 
-    private void label3ActionPerformed(ActionEvent e)
-    {
-
-        this.tishi.setText("提示x" + (--times_tishi));
-        gpGamePanel.Ghint();
-        if (times_tishi <= 0)
-        {
-            this.tishi.setEnabled(false);
-        }
-    }
-
-    private void label2ActionPerformed(ActionEvent e)
-    {
-        stoped = !stoped;
-        gpGamePanel.pause(stoped);
-    }
-
-    private void label4ActionPerformed(ActionEvent e)
-    {
-        this.resort.setText("重排x" + (--times_resort));
-        gpGamePanel.reSort();
-        if (times_resort <= 0)
-        {
-            this.resort.setEnabled(false);
-        }
-    }
+    // /**
+    // * 游戏提示按键
+    // *
+    // * @param e
+    // */
+    // private void label3ActionPerformed(ActionEvent e)
+    // {
+    //
+    // this.tishi.setText("提示x" + (--times_hint));
+    // gpGamePanel.Ghint();
+    // if (times_hint <= 0)
+    // {
+    // this.tishi.setEnabled(false);
+    // }
+    // }
+    //
+    // /**
+    // * 暂停游戏按键
+    // *
+    // * @param e
+    // */
+    // private void label2ActionPerformed(ActionEvent e)
+    // {
+    // stoped = !stoped;
+    // gpGamePanel.pause(stoped);
+    // }
+    //
+    // /**
+    // * 重排游戏按键
+    // *
+    // * @param e
+    // */
+    // private void label4ActionPerformed(ActionEvent e)
+    // {
+    // this.resort.setText("重排x" + (--times_resort));
+    // gpGamePanel.reSort();
+    // if (times_resort <= 0)
+    // {
+    // this.resort.setEnabled(false);
+    // }
+    // }
 
     /**
      * 初始化信息界面
@@ -122,21 +133,22 @@ public class StatusPanel extends JPanel
         panel1 = new JPanel();
         button1 = new JButton();
         button2 = new JButton();
-        label5 = new JLabel();
+        label1 = new JLabel();
+        label2 = new JLabel("0");
         slider1 = new JSlider();
         vSpacer1 = new JPanel(null);
         panel2 = new JPanel();
-        times = new JProgressBar();
+        times = new JProgressBar();// 水平进度条
         stop = new JButton();// 暂停按钮
         tishi = new JButton();// 提示按钮
         resort = new JButton();// 重排按钮
 
-        setBorder(new javax.swing.border.CompoundBorder(
-                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                        "", javax.swing.border.TitledBorder.CENTER,
-                        javax.swing.border.TitledBorder.BOTTOM,
-                        new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 12), java.awt.Color.red),
-                getBorder()));
+         setBorder(new javax.swing.border.CompoundBorder(
+         new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+         "", javax.swing.border.TitledBorder.CENTER,
+         javax.swing.border.TitledBorder.BOTTOM,
+         new java.awt.Font("微软雅黑", java.awt.Font.BOLD, 12), java.awt.Color.red),
+         getBorder()));
         // 注册事件监听器
         addPropertyChangeListener(new java.beans.PropertyChangeListener()
         {
@@ -161,9 +173,9 @@ public class StatusPanel extends JPanel
             panel1.add(button2);
             button2.setBounds(new Rectangle(new Point(90, 10), button2.getPreferredSize()));
 
-            label5.setText("音乐");
-            panel1.add(label5);
-            label5.setBounds(new Rectangle(new Point(580, 10), label5.getPreferredSize()));
+            label1.setText("音乐");
+            panel1.add(label1);
+            label1.setBounds(new Rectangle(new Point(580, 10), label1.getPreferredSize()));
             panel1.add(slider1);
             slider1.setBounds(610, 10, 240, slider1.getPreferredSize().height);
             panel1.add(vSpacer1);
@@ -181,61 +193,61 @@ public class StatusPanel extends JPanel
                 preferredSize.width += insets.right;
                 preferredSize.height += insets.bottom;
                 panel1.setMinimumSize(preferredSize);
-                panel1.setPreferredSize(preferredSize);
+                panel1.setPreferredSize(new Dimension(182, 37));
             }
         }
         {
             panel2.setLayout(null);
 
-            // 时间
-            times.setValue(100);
+            // panel1.add(label2);// 计分器
+
+            times.setValue(100);// 时间
             panel2.add(times);
             times.setBounds(170, 10, 250, 25);
 
-            // 暂停
-            stop.setText("暂停");
-            stop.setIcon(null);
-            stop.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
-            stop.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    label2ActionPerformed(e);
-                }
-            });
-            panel2.add(stop);
-            stop.setBounds(430, 10, 110, 25);
+            // stop.setText("暂停"); // 暂停
+            // stop.setIcon(null);
+            // stop.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
+            // stop.addActionListener(new ActionListener()
+            // {
+            // @Override
+            // public void actionPerformed(ActionEvent e)
+            // {
+            // label2ActionPerformed(e);
+            // }
+            // });
+            // panel2.add(stop);
+            // stop.setBounds(430, 10, 110, 25);
 
             // 提示
-            tishi.setText("提示×3");
-            tishi.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
-            tishi.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    label3ActionPerformed(e);
-                }
-            });
-            panel2.add(tishi);
-            tishi.setBounds(550, 10, 110, 25);
+            // tishi.setText("提示×3");
+            // tishi.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
+            // tishi.addActionListener(new ActionListener()
+            // {
+            // @Override
+            // public void actionPerformed(ActionEvent e)
+            // {
+            // label3ActionPerformed(e);
+            // }
+            // });
+            // panel2.add(tishi);
+            // tishi.setBounds(550, 10, 110, 25);
 
             // resort
-            resort.setText("重排×3");
-            resort.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
-            resort.setIcon(
-                    new ImageIcon("/res/icons/png-0616.png"));
-            resort.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    label4ActionPerformed(e);
-                }
-            });
-            panel2.add(resort);
-            resort.setBounds(670, 10, 110, 25);
+            // resort.setText("重排×3");
+            // resort.setFont(new Font("浪漫雅圆", Font.BOLD, 12));
+            // resort.setIcon(
+            // new ImageIcon("/res/icons/png-0616.png"));
+            // resort.addActionListener(new ActionListener()
+            // {
+            // @Override
+            // public void actionPerformed(ActionEvent e)
+            // {
+            // label4ActionPerformed(e);
+            // }
+            // });
+            // panel2.add(resort);
+            // resort.setBounds(670, 10, 110, 25);
             {
                 Dimension preferredSize = new Dimension();
                 for (int i = 0; i < panel2.getComponentCount(); i++)
@@ -253,6 +265,11 @@ public class StatusPanel extends JPanel
         }
         add(panel2);
     }
+
+    // public void updateScore()
+    // {
+    // label2.setText(gpGamePanel.getPlayer().getScore() + "");
+    // }
 }
 
 

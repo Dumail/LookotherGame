@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import com.algorithm.PathAlgo;
 import com.icons.IconManager;
+import com.model.GamePlayer;
 import com.model.Line;
 import com.model.LineDrawer;
 import com.model.Music;
@@ -42,18 +43,21 @@ public class GamePanel extends JPanel implements ActionListener
     public int height = 70;// 游戏图片的高度
     public int rows, columns;// 图片行数和列数
     private int panelWidth, panelHeight;// 游戏主面板宽度和高度
+
     public int BORDER = 1;// 游戏图片间的间距
     private int level = 1;// 游戏关数
     public int left, top;// 游戏图片的开始排列的位置
     private int lenght;// 游戏图片的种类数
     private int kind;// 游戏图片的种类
+    private GameInfo info;
     // 游戏背景图片
-    Image image = new ImageIcon("res/icons/bg11.jpg").getImage();
+    Image image;
     // 游戏暂停背景图片
-    Image img_stop = new ImageIcon("res/icons/stop.jpg").getImage();
-    private Music bgMusic = new Music("bg1");
+    Image img_stop;
+    public Music disMusic = new Music("dispose2");
+    private Music bgMusic = new Music("bgm1");
 
-
+    private GamePlayer player;
     Timer timer;// 计时器对象
     private int delay = 12;
     private boolean stoped;
@@ -74,7 +78,7 @@ public class GamePanel extends JPanel implements ActionListener
      * @param lenght 游戏图片的种类数
      * @param kind 游戏图片的种类
      */
-    public GamePanel(int rows, int columns, int lenght, int kind)
+    public GamePanel(GamePlayer player, int rows, int columns, int lenght, int kind)
     {
         this.rows = rows;
         this.columns = columns;
@@ -82,7 +86,10 @@ public class GamePanel extends JPanel implements ActionListener
         this.panelHeight = rows * 90 - 20;
         this.lenght = lenght;
         this.kind = kind;
-        bgMusic.loop();
+        this.player = player;
+        image = new ImageIcon("res/icons/bg" + kind + ".jpg").getImage();
+        img_stop = new ImageIcon("res/icons/stop" + kind + ".jpg").getImage();
+        bgMusic.loop();// 播放背景音乐
 
         left = (panelWidth - BORDER - columns * (width + 1)) / 2;// 计算游戏图片开始排列的左边坐标
         top = (panelHeight - BORDER - (height + 1) * rows) / 2;// 计算游戏图片开始排列的顶部坐标
@@ -157,6 +164,7 @@ public class GamePanel extends JPanel implements ActionListener
             timer.stop();
             started = false;
             isFinished();
+            isOver();
         }
     }
 
@@ -242,6 +250,8 @@ public class GamePanel extends JPanel implements ActionListener
             // 能连接则绘制路径线
             if (cp != null)
             {
+                player.addScore(20);
+                info.updateScore();// 增加20分并更新显示
                 drawPath(cp, front_click, ib);// 绘制路径线
                 List<Picture> list = maps.get(front_click.getIconId());// 获取和选中游戏图片相同的游戏图片列表
                 // 移除其中选中的两个游戏图片
@@ -308,11 +318,39 @@ public class GamePanel extends JPanel implements ActionListener
         {
             return;
         }
-        JOptionPane.showMessageDialog(this, "恭喜你，进入第" + level + "关");
+        if (level >= 3)
+        {
+            JOptionPane.showMessageDialog(this, "恭喜你，通关了！");
+            player.addScore(info.timer.reset() * 20);// 增加分数
+            GameLogin.gameplayer.setHighscore();// 设置最高分
+            GameLogin.gameplayer.ClearScore();// 当前分数清零
+            GameLogin.gamelogin.setVisible(true);// 显示登录界面
+            bgMusic.stop();// 停止播放背景音乐
+            GameFream.gamefream.dispose();// 关闭游戏窗口
+        }
+        JOptionPane.showMessageDialog(this, "恭喜你，进入下一关");
+        player.addScore(info.timer.reset() * 20);// 增加分数
+        info.updateScore();// 更新分数
         level++;// 关卡加一
         ibs.clear();// 清除游戏图片列表
-        ibs = IconManager.getRandomIcons(this, lenght, kind, rows * columns, maps);// 重新获取随机游戏图片列表
+        IconManager.setIcons(null);
+        ibs = IconManager.getRandomIcons(this, lenght + (level - 1) * 4, kind, rows * columns,
+                maps);// 重新获取随机游戏图片列表
         initPictures();
+        repaint();
+    }
+
+    public void isOver()
+    {
+        if (info.timer.getValue() >= 100)
+        {
+            JOptionPane.showMessageDialog(this, "时间结束，你的分数是" + player.getScore());
+            GameLogin.gameplayer.setHighscore();// 设置最高分
+            GameLogin.gameplayer.ClearScore();// 当前分数清零
+            GameLogin.gamelogin.setVisible(true);// 显示登录界面
+            bgMusic.stop();
+            GameFream.gamefream.dispose();// 关闭游戏窗口
+        }
     }
 
     /**
@@ -465,4 +503,63 @@ public class GamePanel extends JPanel implements ActionListener
     {
         return lines;
     }
+
+    /**
+     * 返回玩家
+     * 
+     * @return player
+     */
+    public GamePlayer getPlayer()
+    {
+        return player;
+    }
+
+    /**
+     * 获取界面宽度
+     * 
+     * @return panelWidth
+     */
+    public int getPanelWidth()
+    {
+        return panelWidth;
+    }
+
+    /**
+     * 获取界面高度
+     * 
+     * @return panelHeight
+     */
+    public int getPanelHeight()
+    {
+        return panelHeight;
+    }
+
+    /**
+     * 获取信息面板
+     * 
+     * @return info
+     */
+    public GameInfo getInfo()
+    {
+        return info;
+    }
+
+    /**
+     * 连接信息面板，只能在调用此函数之后才显示信息界面
+     * 
+     * @param info 要设置的 info
+     */
+    public void setInfo(GameInfo info)
+    {
+        this.info = info;
+    }
+
+    /**
+     * @param level 要设置的 level
+     */
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+
 }

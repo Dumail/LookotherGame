@@ -129,6 +129,7 @@ public class Line
         }
         if (flag)// 绘制成功后消除两个游戏图片
         {
+            this.gp.disMusic.play();
             b1.setVisible(false);
             b2.setVisible(false);
         }
