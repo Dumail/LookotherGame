@@ -104,7 +104,7 @@ public class GameLogin extends javax.swing.JFrame {
 		});
 
         jLabel2.setFont(new java.awt.Font("汉仪小麦简", 1, 48));
-        jLabel2.setText("   Welcome");
+        jLabel2.setText("Welcome");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -207,9 +207,11 @@ public class GameLogin extends javax.swing.JFrame {
 		if (s.equals(text)) {
             new NameFalse().setVisible(true);// 显示修改失败界面
         } else
+        {
             gameplayer = new GamePlayer(text);
             PlayerServer.insertPlayer(gameplayer);// 如果没有增加数据
-        new NameTrue().setVisible(true);// 显示修改成功界面
+            new NameTrue().setVisible(true);// 显示修改成功界面
+        }
 	}
 
 	private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {

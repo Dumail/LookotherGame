@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import com.algorithm.PathAlgo;
+import com.icons.GifDrawer;
 import com.icons.IconManager;
 import com.model.GamePlayer;
 import com.model.Line;
@@ -323,7 +324,11 @@ public class GamePanel extends JPanel implements ActionListener
         }
         if (level >= 3)
         {
-            JOptionPane.showMessageDialog(this, "恭喜你，通关了！");
+            // JOptionPane.showMessageDialog(this, "恭喜你，通关了！");
+            WinDia winDia = new WinDia(1);
+            winDia.setVisible(true);
+            GifDrawer gifDrawer = new GifDrawer(winDia.getGraphics(), 10, 20, 1, 10);
+            gifDrawer.loop();
             player.addScore(info.timer.reset() * 20);// 增加分数
             GameLogin.gameplayer.setHighscore();// 设置最高分
             PlayerServer.updataPlayerScore(GameLogin.gameplayer);// 更新数据库最高分
@@ -332,7 +337,11 @@ public class GamePanel extends JPanel implements ActionListener
             bgMusic.stop();// 停止播放背景音乐
             GameFream.gamefream.dispose();// 关闭游戏窗口
         }
-        JOptionPane.showMessageDialog(this, "恭喜你，进入下一关");
+        // JOptionPane.showMessageDialog(this, "恭喜你，进入下一关");
+        WinDia winDia = new WinDia(1);
+        winDia.setVisible(true);
+        GifDrawer gifDrawer = new GifDrawer(winDia.getGraphics(), 10, 20, 1, 10);
+        gifDrawer.loop();
         player.addScore(info.timer.reset() * 20);// 增加分数
         info.updateScore();// 更新分数
         level++;// 关卡加一
@@ -348,12 +357,16 @@ public class GamePanel extends JPanel implements ActionListener
     {
         if (info.timer.getValue() >= 100)
         {
-            JOptionPane.showMessageDialog(this, "时间结束，你的分数是" + player.getScore());
-            GameLogin.gameplayer.setHighscore();// 设置最高分
-            PlayerServer.updataPlayerScore(GameLogin.gameplayer);// 更新数据库最高分
-            GameLogin.gameplayer.ClearScore();// 当前分数清零
-            GameLogin.gamelogin.setVisible(true);// 显示登录界面
+            // JOptionPane.showMessageDialog(this, "时间结束，你的分数是" + player.getScore());
+            LoseDia dialog = new LoseDia(player.getScore());
+            dialog.setVisible(true);
+            GifDrawer gifDrawer = new GifDrawer(dialog.getGraphics(), 40, 20, 2, 2);
+            gifDrawer.loop();// 绘制失败动图
+            GameLogin.gameplayer.setHighscore();
+            PlayerServer.updataPlayerScore(GameLogin.gameplayer);
+            GameLogin.gameplayer.ClearScore(); // 分数清零
             bgMusic.stop();
+            IconManager.setIcons(null);
             GameFream.gamefream.dispose();// 关闭游戏窗口
         }
     }
