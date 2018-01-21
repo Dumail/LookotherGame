@@ -17,11 +17,13 @@ public class PathPoint
     private int row;// 行数
     private int col;// 列数
     private GamePanel gp;
+    
     /**
      * 以行和列初始化路径点
      * 
-     * @param row
-     * @param col
+     * @param row 初始行
+     * @param col 初始列
+     * @param gp 游戏面板
      */
     public PathPoint(int row, int col, GamePanel gp)
     {
@@ -29,20 +31,23 @@ public class PathPoint
         this.col = col;
         this.gp = gp;
     }
+    
     /**
      * 通过图片的行数和列数初始化路径点
      * 
-     * @param ib
+     * @param ib 游戏图片
+     * @param gp 游戏界面
      */
     public PathPoint(Picture ib, GamePanel gp)
     {
         this(ib.getRow(), ib.getCol(), gp);
         this.gp = gp;
     }
+    
     /**
      * 返回一个路径点对象在游戏窗体中的坐标点
      * 
-     * @return
+     * @return 路径点
      */
     public Point getPointOnMain()
     {

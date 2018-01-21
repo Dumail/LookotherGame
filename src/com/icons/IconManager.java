@@ -60,7 +60,7 @@ public class IconManager
      * 
      * @param gp 目标游戏界面
      * @param length 游戏图片种类数
-     * @param 游戏图片的种类
+     * @param kind 游戏图片的种类
      * @param numbers 游戏图片总个数
      * @param maps 图片和相同游戏图片列表映射关系
      * @return 生成的游戏图片随机列表
@@ -109,6 +109,8 @@ public class IconManager
     }
 
     /**
+     * 设置文件夹
+     * 
      * @param folder 要设置的 folder
      */
     public static void setFolder(String folder)
@@ -117,7 +119,9 @@ public class IconManager
     }
 
     /**
-     * @return icons
+     * 获取图片组
+     * 
+     * @return icons 图片数组
      */
     public static Image[] getIcons()
     {
@@ -125,7 +129,9 @@ public class IconManager
     }
 
     /**
-     * @param icons 要设置的 icons
+     * 设置图片数组
+     * 
+     * @param icons 要设置的 图片数组
      */
     public static void setIcons(Image[] icons)
     {

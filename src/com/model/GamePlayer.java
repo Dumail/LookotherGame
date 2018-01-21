@@ -4,6 +4,8 @@
 package com.model;
 
 /**
+ * 游戏玩家
+ * 
  * @author PCF
  */
 public class GamePlayer
@@ -13,7 +15,9 @@ public class GamePlayer
     private int score = 0;// 当前分数
 
     /**
-     * @return highscore
+     * 获取最高分
+     * 
+     * @return highscore 最高分
      */
     public int getHighscore()
     {
@@ -21,7 +25,7 @@ public class GamePlayer
     }
 
     /**
-     * @param highscore 要设置的 highscore
+     * 当前分数高于最高分时改变最高分
      */
     public void setHighscore()
     {
@@ -30,7 +34,9 @@ public class GamePlayer
     }
 
     /**
-     * @return username
+     * 获取用户名
+     * 
+     * @return username 用户名
      */
     public String getUsername()
     {
@@ -66,7 +72,7 @@ public class GamePlayer
     /**
      * 获取用户当前分数
      * 
-     * @return score
+     * @return score 当前分数
      */
     public int getScore()
     {

@@ -28,8 +28,8 @@ public class GifDrawer implements Runnable
     /**
      * 初始化gif动画
      * 
-     * @param x 坐标
-     * @param y
+     * @param x 坐标x
+     * @param y 坐标y
      * @param g 绘制用的画笔
      * @param kind gif图片文件夹的编号
      * @param num 图片总数
@@ -43,11 +43,11 @@ public class GifDrawer implements Runnable
      * 初始化动画图片组
      * 
      * @param folder 指定gif动画的文件夹
-     * @param g
-     * @param x
-     * @param y
-     * @param kind
-     * @param num
+     * @param g 画笔
+     * @param x x坐标
+     * @param y y坐标
+     * @param kind 主题
+     * @param num 图片数
      */
     public GifDrawer(String folder, Graphics g, int x, int y, int kind, int num)
     {
@@ -113,7 +113,7 @@ public class GifDrawer implements Runnable
     /**
      * 设置播放状态
      * 
-     * @param isPaly
+     * @param isPaly 播放状态
      */
     public void setPaly(boolean isPaly)
     {
@@ -121,7 +121,9 @@ public class GifDrawer implements Runnable
     }
 
     /**
-     * @return times
+     * 获取播放间隔时间
+     * 
+     * @return times 播放间隔时间
      */
     public int getTimes()
     {
@@ -131,7 +133,7 @@ public class GifDrawer implements Runnable
     /**
      * 设置播放间隔
      * 
-     * @param times
+     * @param times 播放间隔
      */
     public void setTimes(int times)
     {

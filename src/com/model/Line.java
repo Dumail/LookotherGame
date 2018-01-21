@@ -27,13 +27,14 @@ public class Line
     static Color c1 = new Color(27, 190, 186);// 设置路线的颜色
     Color c2 = Color.white;// 渐变颜色
     GamePanel gp;
+    
     /**
      * 初始化路径线，确定其位置
      * 
-     * @param p
-     * @param points
-     * @param b1
-     * @param b2
+     * @param p 游戏面板
+     * @param points 路径点数组
+     * @param b1 图片1
+     * @param b2 图片2
      */
     public Line(GamePanel p, Point[] points, Picture b1, Picture b2)
     {
@@ -46,7 +47,7 @@ public class Line
     /**
      * 判断是否绘制成功
      * 
-     * @return
+     * @return 是否成果
      */
     public boolean isFlag()
     {
@@ -56,7 +57,7 @@ public class Line
     /**
      * 设置绘制成功标志
      * 
-     * @param flag
+     * @param flag 是否成功
      */
     public void setFlag(boolean flag)
     {
@@ -66,7 +67,7 @@ public class Line
     /**
      * 绘制路径线
      * 
-     * @param g
+     * @param g 画笔
      */
     public void draw(Graphics g)
     {

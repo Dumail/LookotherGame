@@ -19,11 +19,13 @@ public class Music
     AudioClip audioClip = null;
 
     /**
-     * @param filename
+     * 设置待载人音频位置
+     * 
+     * @param filename 位置
      */
     public Music(String filename)
     {
-        setMusic(filename);
+        setMusic(filename);// 载人
     }
 
     /**

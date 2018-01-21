@@ -38,7 +38,9 @@ public class GameChoice extends javax.swing.JFrame {
 	 */
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
-	private void initComponents() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void initComponents()
+    {
 
 		jComboBox1 = new javax.swing.JComboBox();
 		jLabel1 = new javax.swing.JLabel();
@@ -46,8 +48,6 @@ public class GameChoice extends javax.swing.JFrame {
 		jComboBox2 = new javax.swing.JComboBox();
 		jButton1 = new javax.swing.JButton();
 		jButton2 = new javax.swing.JButton();
-
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 				"简单", "普通", "困难" }));
@@ -58,10 +58,10 @@ public class GameChoice extends javax.swing.JFrame {
 			}
 		});
 
-		jLabel1.setFont(new java.awt.Font("微软雅黑", 0, 24));
+        jLabel1.setFont(new java.awt.Font("汉仪小麦简", 0, 24));
 		jLabel1.setText("\u6e38\u620f\u96be\u5ea6");
 
-		jLabel2.setFont(new java.awt.Font("微软雅黑", 0, 24));
+        jLabel2.setFont(new java.awt.Font("汉仪小麦简", 0, 24));
 		jLabel2.setText("\u6e38\u620f\u98ce\u683c");
 
 		jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
@@ -204,8 +204,10 @@ public class GameChoice extends javax.swing.JFrame {
 	// Variables declaration - do not modify
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
-	private javax.swing.JComboBox jComboBox1;
-	private javax.swing.JComboBox jComboBox2;
+    @SuppressWarnings("rawtypes")
+    private javax.swing.JComboBox jComboBox1;
+    @SuppressWarnings("rawtypes")
+    private javax.swing.JComboBox jComboBox2;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	// End of variables declaration//GEN-END:variables

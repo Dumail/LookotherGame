@@ -31,10 +31,11 @@ public class Picture
     private Color bgColor;// 背景颜色
     private String id;// 编号，随机生成图片时递增生成
     private GamePanel gp;
+    
     /**
      * 获取图片行数
      * 
-     * @return
+     * @return 行数
      */
     public int getRow()
     {
@@ -44,7 +45,7 @@ public class Picture
     /**
      * 设置图片行数，并修改图片的坐标
      * 
-     * @param row
+     * @param row 行数
      */
     public void setRow(int row)
     {
@@ -55,7 +56,7 @@ public class Picture
     /**
      * 获取图片列数
      * 
-     * @return
+     * @return 列数
      */
     public int getCol()
     {
@@ -76,7 +77,7 @@ public class Picture
     /**
      * 获取编号
      * 
-     * @return
+     * @return 编号
      */
     public String getId()
     {
@@ -96,8 +97,8 @@ public class Picture
     /**
      * 以显示图片和图片编号初始化对象
      * 
-     * @param img
-     * @param id
+     * @param img 图片
+     * @param id 编号
      */
     public Picture(Image img, String id, GamePanel gp)
     {
@@ -109,7 +110,7 @@ public class Picture
     /**
      * 获取显示的图片字符串信息
      * 
-     * @return
+     * @return img.toString
      */
     public String getIconId()
     {
@@ -119,7 +120,7 @@ public class Picture
     /**
      * 获取图片x坐标
      * 
-     * @return
+     * @return x坐标
      */
     public int getX()
     {
@@ -130,7 +131,7 @@ public class Picture
     /**
      * 获取图片纵坐标
      * 
-     * @return
+     * @return y坐标
      */
     public int getY()
     {
@@ -140,7 +141,7 @@ public class Picture
     /**
      * 判断是否显示
      * 
-     * @return
+     * @return visible
      */
     public boolean isVisible()
     {
@@ -150,7 +151,7 @@ public class Picture
     /**
      * 判断是否被选中
      * 
-     * @return
+     * @return selected
      */
     public boolean isSelected()
     {
@@ -161,7 +162,7 @@ public class Picture
     /**
      * 返回显示的图片
      * 
-     * @return
+     * @return 图片
      */
     public Image getImg()
     {
@@ -171,7 +172,7 @@ public class Picture
     /**
      * 更改显示的图片
      * 
-     * @param img
+     * @param img 图片
      */
     public void setImg(Image img)
     {
@@ -181,9 +182,9 @@ public class Picture
     /**
      * 以行数，列数以及显示的图片初始化对象
      * 
-     * @param row
-     * @param col
-     * @param img
+     * @param row 行
+     * @param col 列
+     * @param img 图片
      */
     public Picture(int row, int col, Image img, GamePanel gp)
     {
@@ -197,7 +198,7 @@ public class Picture
     /**
      * 获取背景颜色
      * 
-     * @return
+     * @return 背景颜色
      */
     public Color getBgColor()
     {
@@ -207,7 +208,7 @@ public class Picture
     /**
      * 设置背景颜色
      * 
-     * @param bgColor
+     * @param bgColor 背景颜色
      */
     public void setBgColor(Color bgColor)
     {
@@ -217,7 +218,7 @@ public class Picture
     /**
      * 绘制此游戏图片
      * 
-     * @param g
+     * @param g 画笔
      */
     public void paint(Graphics g)
     {
@@ -255,7 +256,7 @@ public class Picture
     /**
      * 设置是否显示
      * 
-     * @param b
+     * @param b visible
      */
     public void setVisible(boolean b)
     {
@@ -265,7 +266,7 @@ public class Picture
     /**
      * 设置是否被选中
      * 
-     * @param b
+     * @param b selected
      */
     public void setSelected(boolean b)
     {
@@ -275,7 +276,7 @@ public class Picture
     /**
      * 获取游戏图片的面板
      * 
-     * @return gp
+     * @return gp 游戏面板
      */
     public GamePanel getGp()
     {

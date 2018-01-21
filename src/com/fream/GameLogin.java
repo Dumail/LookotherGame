@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.model.GamePlayer;
+import com.model.PlayerServer;
 
 /**
  *登录窗口
@@ -27,6 +28,7 @@ public class GameLogin extends javax.swing.JFrame {
         gamelogin = this;
         GameFream.setStyle();
 		initComponents();
+        setTitle("连连看");
 		setSize(650, 600);//设置窗口的大小 （宽，高）
 		setLocation(450, 200);//窗口在桌面位置（左右，上下）
         ImageIcon background = new ImageIcon("res/icons/bg3.jpg");// 把背景图片显示在一个标签里面
@@ -102,7 +104,7 @@ public class GameLogin extends javax.swing.JFrame {
 		});
 
         jLabel2.setFont(new java.awt.Font("汉仪小麦简", 1, 48));
-		jLabel2.setText("welcome");
+        jLabel2.setText("   Welcome");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -181,8 +183,11 @@ public class GameLogin extends javax.swing.JFrame {
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
         if (gameplayer == null)
+        {
             gameplayer = new GamePlayer("user");
-        jTextField1.setText(gameplayer.getUsername());
+            PlayerServer.insertPlayer(gameplayer);// 如果没有增加数据
+            jTextField1.setText(gameplayer.getUsername());
+        }
 		new GameChoice().setVisible(true);
 	}
 
@@ -200,10 +205,11 @@ public class GameLogin extends javax.swing.JFrame {
 		String text = jTextField1.getText();
 		String s = "";
 		if (s.equals(text)) {
-			new NameFalse().setVisible(true);
+            new NameFalse().setVisible(true);// 显示修改失败界面
+        } else
             gameplayer = new GamePlayer(text);
-		} else
-			new NameTrue().setVisible(true);
+            PlayerServer.insertPlayer(gameplayer);// 如果没有增加数据
+        new NameTrue().setVisible(true);// 显示修改成功界面
 	}
 
 	private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,13 +231,13 @@ public class GameLogin extends javax.swing.JFrame {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JButton jButton3;
-	private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton1;// 开始游戏按钮
+    private javax.swing.JButton jButton2;// 离开游戏按钮
+    private javax.swing.JButton jButton3;// 分数榜按钮
+    private javax.swing.JButton jButton4;// 更改用户名按钮
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
-	private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField1;// 用户名输入框
 	// End of variables declaration//GEN-END:variables
 
 }

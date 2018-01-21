@@ -9,6 +9,8 @@ package com.fream;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import com.model.PlayerServer;
 
 /**
  * 分数窗口
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
  */
 public class GameScores extends javax.swing.JFrame {
 	String[] thead = new String[] { "排名", "姓名", "得分" };
+    String[][] scores = PlayerServer.getScoreTable();
 
 	public GameScores() {
 		initComponents();
@@ -33,7 +36,8 @@ public class GameScores extends javax.swing.JFrame {
 
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
-	private void initComponents() {
+    private void initComponents()
+    {
 
 		scrollPane1 = new java.awt.ScrollPane();
 		jScrollPane1 = new javax.swing.JScrollPane();
@@ -41,19 +45,25 @@ public class GameScores extends javax.swing.JFrame {
         jTextLabel = new javax.swing.JLabel();
 		jButton1 = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		//设置表格内容
+        DefaultTableModel tableModel = new DefaultTableModel(scores, thead){
+            private static final long serialVersionUID = 1L;
 
-		jTable1.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] {},thead));
+            @Override // 设置表格不可编辑
+            public boolean isCellEditable(int row,int column) {
+                return false;
+              }};
+        jTable1.setModel(tableModel);
 		jScrollPane1.setViewportView(jTable1);
 
 		scrollPane1.add(jScrollPane1);
 
-		jTextLabel.setBackground(new java.awt.Color(204, 255, 255));
-		jTextLabel.setFont(new java.awt.Font("微软雅黑", 1, 24));
+        jTextLabel.setBackground(new java.awt.Color(204, 255, 255));
+		jTextLabel.setFont(new java.awt.Font("汉仪小麦简", 1, 24));
         jTextLabel.setText("      \u5f97\u5206\u699c");// 得分榜文字
 
-		jButton1.setFont(new java.awt.Font("微软雅黑", 1, 14));
+
+		jButton1.setFont(new java.awt.Font("汉仪小麦简", 1, 14));
         jButton1.setText("\u8fd4\u56de");// 返回
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -128,8 +138,8 @@ public class GameScores extends javax.swing.JFrame {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton jButton1;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane1;// 滚动条
+    private javax.swing.JTable jTable1;// 分数窗口
     private javax.swing.JLabel jTextLabel;
 	private java.awt.ScrollPane scrollPane1;
 	// End of variables declaration//GEN-END:variables

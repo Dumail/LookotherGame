@@ -17,8 +17,8 @@ public class PathAlgo
     /**
      * 获取可以连接两个图片的点
      * 
-     * @param b1
-     * @param b2
+     * @param b1 图片1
+     * @param b2 图片2
      * @return 满足连接条件返回路径点数组，否则返回null
      */
     public static PathPoint[] getPoints(Picture b1, Picture b2, GamePanel gp)
@@ -39,9 +39,9 @@ public class PathAlgo
     /**
      * 行路径算法
      *
-     * @param b1
-     * @param b2
-     * @return
+     * @param b1 图片1
+     * @param b2 图片2
+     * @return 路径点数组
      */
     public static PathPoint[] wayRow(Picture b1, Picture b2, GamePanel gp)
     {
@@ -149,9 +149,9 @@ public class PathAlgo
     /**
      * 列路径算法
      *
-     * @param b1
-     * @param b2
-     * @return
+     * @param b1 图片1
+     * @param b2 图片2
+     * @return 路径点数组
      */
     public static PathPoint[] wayCol(Picture b1, Picture b2, GamePanel gp)
     {
@@ -247,9 +247,9 @@ public class PathAlgo
     /**
      * 获取两个数的中间值
      * 
-     * @param i1
-     * @param i2
-     * @return
+     * @param i1 数1
+     * @param i2 数2
+     * @return 中间值
      */
     public static int getCenter(int i1, int i2)
     {

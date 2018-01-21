@@ -17,6 +17,14 @@ public class LineDrawer implements Runnable
     private Picture b1, b2;// 待连接的图片
     private GamePanel gp;// 待绘制的面板
 
+    /**
+     * 初始化路径点绘制
+     * 
+     * @param gp 待绘制游戏面板
+     * @param points 路径点数组
+     * @param b1 图片1
+     * @param b2 图片2
+     */
     public LineDrawer(GamePanel gp, PathPoint[] points, Picture b1, Picture b2)
     {
         this.points = points;
@@ -25,6 +33,11 @@ public class LineDrawer implements Runnable
         this.gp = gp;
     }
 
+    /*
+     * （非 Javadoc）
+     * 
+     * @see java.lang.Runnable#run()
+     */
     @Override
     public void run()
     {
@@ -46,6 +59,14 @@ public class LineDrawer implements Runnable
         gp.startTimer();
     }
 
+    /**
+     * 移动路径点
+     * 
+     * @param p1 路径点1
+     * @param p2 路径点2
+     * @param target 目标路径点
+     * @param flag 方向
+     */
     void transPoint(Point p1, Point p2, Point target, int flag)
     {
         // 两点同一列

@@ -28,6 +28,7 @@ import com.model.LineDrawer;
 import com.model.Music;
 import com.model.PathPoint;
 import com.model.Picture;
+import com.model.PlayerServer;
 
 /**
  * 游戏主界面
@@ -54,8 +55,8 @@ public class GamePanel extends JPanel implements ActionListener
     Image image;
     // 游戏暂停背景图片
     Image img_stop;
-    public Music disMusic = new Music("dispose2");
-    private Music bgMusic = new Music("bgm1");
+    public Music disMusic = new Music("dispose5");// 音效
+    public Music bgMusic;
 
     private GamePlayer player;
     Timer timer;// 计时器对象
@@ -88,11 +89,13 @@ public class GamePanel extends JPanel implements ActionListener
         this.kind = kind;
         this.player = player;
         image = new ImageIcon("res/icons/bg" + kind + ".jpg").getImage();
+        bgMusic = new Music("bgm" + kind);
         img_stop = new ImageIcon("res/icons/stop" + kind + ".jpg").getImage();
         bgMusic.loop();// 播放背景音乐
 
         left = (panelWidth - BORDER - columns * (width + 1)) / 2;// 计算游戏图片开始排列的左边坐标
         top = (panelHeight - BORDER - (height + 1) * rows) / 2;// 计算游戏图片开始排列的顶部坐标
+
 
         ibs = IconManager.getRandomIcons(this, lenght, kind, rows * columns, maps);// 获取随机游戏图片列表
         this.pictures = new Picture[rows][columns];
@@ -323,6 +326,7 @@ public class GamePanel extends JPanel implements ActionListener
             JOptionPane.showMessageDialog(this, "恭喜你，通关了！");
             player.addScore(info.timer.reset() * 20);// 增加分数
             GameLogin.gameplayer.setHighscore();// 设置最高分
+            PlayerServer.updataPlayerScore(GameLogin.gameplayer);// 更新数据库最高分
             GameLogin.gameplayer.ClearScore();// 当前分数清零
             GameLogin.gamelogin.setVisible(true);// 显示登录界面
             bgMusic.stop();// 停止播放背景音乐
@@ -346,6 +350,7 @@ public class GamePanel extends JPanel implements ActionListener
         {
             JOptionPane.showMessageDialog(this, "时间结束，你的分数是" + player.getScore());
             GameLogin.gameplayer.setHighscore();// 设置最高分
+            PlayerServer.updataPlayerScore(GameLogin.gameplayer);// 更新数据库最高分
             GameLogin.gameplayer.ClearScore();// 当前分数清零
             GameLogin.gamelogin.setVisible(true);// 显示登录界面
             bgMusic.stop();

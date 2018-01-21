@@ -12,7 +12,9 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import com.icons.IconManager;
 import com.model.Music;
+import com.model.PlayerServer;
 
 /**
  * 游戏信息界面，必须先连接游戏界面
@@ -25,11 +27,12 @@ public class GameInfo extends JPanel
     private GamePanel gpGamePanel; // 游戏主界面
     private boolean stoped = false;
     private int times_hint = 3;// 提示次数
-    private int times_resort = 3;// 重排次数
+    private int times_resort = 5;// 重排次数
     Timer timer = new Timer();// 计时器
     JLabel lblNewLabel = null;// 分数牌
     private Music reMusic = new Music("resort");
     private Music hiMusic = new Music("hint");
+    JLabel label;
     /**
      * Create the panel.
      */
@@ -156,8 +159,12 @@ public class GameInfo extends JPanel
             @Override
             public void mouseClicked(MouseEvent e)
             {
+                GameLogin.gameplayer.setHighscore();
+                PlayerServer.updataPlayerScore(GameLogin.gameplayer);
                 GameLogin.gameplayer.ClearScore(); // 分数清零
                 GameLogin.gamelogin.setVisible(true);// 显示登录界面
+                gpGamePanel.bgMusic.stop();
+                IconManager.setIcons(null);
                 GameFream.gamefream.dispose();// 关闭游戏窗口
             }
         });
@@ -172,6 +179,19 @@ public class GameInfo extends JPanel
         button.setFont(new Font("汉仪小麦体简", Font.PLAIN, 15));
         button.setBounds(214, 623, 65, 23);
         add(button);
+
+        JLabel lblNewLabel_1 = new JLabel("你的历史最高分是");
+        lblNewLabel_1.setForeground(new Color(205, 50, 222));
+        lblNewLabel_1.setFont(new Font("汉仪小麦体简", Font.PLAIN, 18));
+        lblNewLabel_1.setBounds(60, 29, 145, 36);
+        add(lblNewLabel_1);
+        // 最高分标签
+        label = new JLabel();
+        label.setText(PlayerServer.getPlayerScore(GameLogin.gameplayer) + "");
+        label.setForeground(Color.CYAN);
+        label.setFont(new Font("汉仪小麦体简", Font.PLAIN, 18));
+        label.setBounds(203, 29, 67, 36);
+        add(label);
     }
 
     /**
