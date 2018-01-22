@@ -45,22 +45,26 @@ public class GameFream extends JFrame
             case 0:
                 cow = 8;
                 col = 10;
+                setSize(1100, 730);
+                setLocation(500, 200);
                 break;
             case 1:
                 cow = 10;
                 col = 12;
+                setSize(1270, 73 * 12);
+                setLocation(300, 100);
                 break;
             case 2:
                 cow = 12;
                 col = 14;
+                setSize(1430, 73 * 14);
+                setLocation(250, 30);
                 break;
             default:
                 break;
         }
         gamefream = this;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(500, 200);
-        setSize(cow * 100 + 300, col * 73);
         setResizable(false);// 设置不可自由改变窗口大小
         getContentPane().setLayout(null);
         gamePanel = new GamePanel(player, cow, col, 16, kind);// 初始化游戏界面，一开始图片种类数为16

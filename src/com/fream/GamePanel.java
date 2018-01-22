@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements ActionListener
     Image image;
     // 游戏暂停背景图片
     Image img_stop;
-    public Music disMusic = new Music("dispose5");// 音效
+    public Music[] disMusics = new Music[6];// 音效
     public Music bgMusic;
 
     private GamePlayer player;
@@ -91,6 +91,11 @@ public class GamePanel extends JPanel implements ActionListener
         this.player = player;
         image = new ImageIcon("res/icons/bg" + kind + ".jpg").getImage();
         bgMusic = new Music("bgm" + kind);
+        // 加载六种音效
+        for (int i = 1; i <= 6; i++)
+        {
+            disMusics[i - 1] = new Music("dispose" + i);
+        }
         img_stop = new ImageIcon("res/icons/stop" + kind + ".jpg").getImage();
         bgMusic.loop();// 播放背景音乐
 
@@ -256,6 +261,7 @@ public class GamePanel extends JPanel implements ActionListener
             {
                 player.addScore(20);
                 info.updateScore();// 增加20分并更新显示
+                repaint();
                 drawPath(cp, front_click, ib);// 绘制路径线
                 List<Picture> list = maps.get(front_click.getIconId());// 获取和选中游戏图片相同的游戏图片列表
                 // 移除其中选中的两个游戏图片
@@ -325,17 +331,18 @@ public class GamePanel extends JPanel implements ActionListener
         if (level >= 3)
         {
             // JOptionPane.showMessageDialog(this, "恭喜你，通关了！");
-            WinDia winDia = new WinDia(1);
-            winDia.setVisible(true);
-            GifDrawer gifDrawer = new GifDrawer(winDia.getGraphics(), 10, 20, 1, 10);
-            gifDrawer.loop();
             player.addScore(info.timer.reset() * 20);// 增加分数
             GameLogin.gameplayer.setHighscore();// 设置最高分
             PlayerServer.updataPlayerScore(GameLogin.gameplayer);// 更新数据库最高分
             GameLogin.gameplayer.ClearScore();// 当前分数清零
             GameLogin.gamelogin.setVisible(true);// 显示登录界面
+            WinDia winDia = new WinDia(2);
+            winDia.setVisible(true);
+            GifDrawer gifDrawer = new GifDrawer(winDia.getGraphics(), 10, 20, 1, 10);
+            gifDrawer.loop();
             bgMusic.stop();// 停止播放背景音乐
             GameFream.gamefream.dispose();// 关闭游戏窗口
+            return;
         }
         // JOptionPane.showMessageDialog(this, "恭喜你，进入下一关");
         WinDia winDia = new WinDia(1);
@@ -407,7 +414,8 @@ public class GamePanel extends JPanel implements ActionListener
         Picture[] maped = getMappedButtons();// 获取可以连接的两个游戏图片
         if (maped == null)
         {
-            JOptionPane.showMessageDialog(this, "没有可用的提示，请尝试重新排序");
+            JOptionPane.showMessageDialog(this, "没有可用的提示，已重新排序");
+            reSort();
             return;
         }
         if (front_click != null)

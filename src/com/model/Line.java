@@ -77,6 +77,11 @@ public class Line
         GradientPaint gp;// 线性颜色渐变
         int length = step * index;
         int curL = 0;
+
+        b1.setIselim(true);
+        this.gp.repaint(b1.getX(), b1.getY(), this.gp.width + this.gp.BORDER,
+                this.gp.height + this.gp.BORDER);// 绘制消失效果
+
         for (int i = 0; i < points.length - 1; i++)
         {
             int l = length - curL;
@@ -130,7 +135,7 @@ public class Line
         }
         if (flag)// 绘制成功后消除两个游戏图片
         {
-            this.gp.disMusic.play();
+            this.gp.disMusics[(int) (Math.random() * 5)].play();// 随机播放音效
             b1.setVisible(false);
             b2.setVisible(false);
         }

@@ -14,6 +14,7 @@ import com.model.Music;
  */
 public class Timer extends JProgressBar implements Runnable
 {
+    private static final long serialVersionUID = -7621426892948107473L;
     private boolean stoped = false;// 计时器暂停标志
     private long time; // 限定时间十分钟
     private Music timeMusic = new Music("timeover");

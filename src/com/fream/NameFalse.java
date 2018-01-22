@@ -16,12 +16,14 @@ import javax.swing.JPanel;
  * @author __USER__
  */
 public class NameFalse extends javax.swing.JFrame {
+    private static final long serialVersionUID = -3850997244669942748L;
 
-	/** Creates new form tishi3 */
+    /** Creates new form tishi3 */
 	public NameFalse() {
 		initComponents();
 		setSize(400, 300);//设置窗口的大小 （宽，高）
-		setLocation(500, 300);//窗口在桌面位置（左右，上下）
+		setLocation(680, 300);//窗口在桌面位置（左右，上下）
+        setResizable(false);// 设置不可自由改变窗口大小
         ImageIcon background = new ImageIcon("res/icons/ds.jpeg");// 吧背景图片显示在一个标签里面
 		JLabel label = new JLabel(background);
 		label.setBounds(0, 0, this.getWidth(), this.getHeight());// 把标签的大小位置设置为图片刚好填充整个面板 

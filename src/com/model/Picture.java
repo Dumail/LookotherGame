@@ -23,7 +23,6 @@ public class Picture
     private int x;// 坐标
     private int y;
     private Image img;// 显示的图片
-
     private int row;// 行
     private int col;// 列
     private boolean visible = true;// 是否显示
@@ -31,7 +30,16 @@ public class Picture
     private Color bgColor;// 背景颜色
     private String id;// 编号，随机生成图片时递增生成
     private GamePanel gp;
+    private boolean iselim = false;
     
+    /**
+     * @param iselim 要设置的 iselim
+     */
+    public void setIselim(boolean iselim)
+    {
+        this.iselim = iselim;
+    }
+
     /**
      * 获取图片行数
      * 
@@ -241,7 +249,23 @@ public class Picture
         g2d.drawLine(x + gp.width + gp.BORDER, y + gp.BORDER, x + gp.width + gp.BORDER,
                 y + gp.height + gp.BORDER);
 
-        g2d.drawImage(img, x, y, null);
+        if (iselim)
+        {
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g2d.drawImage(img, x, y, null);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        } else
+            g2d.drawImage(img, x, y, null);
+
+        // int width = img.getHeight(null);
+        // int height = img.getHeight(null);
+        // Rectangle rect_des = CalcRotatedSize(new Rectangle(new Dimension(width, height)), 30);
+        // BufferedImage res = null;
+        // res = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        // Graphics2D g2 = res.createGraphics();
+        // g2.drawImage(img, null, null);
+        // g2d.drawImage(res, x, y, null);
+
         if (selected)
         {// 如果被选中要绘制特殊效果
             Color color = Color.GREEN;// 以红色的半透明矩形覆盖
@@ -282,5 +306,6 @@ public class Picture
     {
         return gp;
     }
+
 }
 

@@ -18,7 +18,7 @@ import com.model.PlayerServer;
  * @author  __USER__
  */
 public class GameLogin extends javax.swing.JFrame {
-
+    private static final long serialVersionUID = -3646308276964810499L;
     public static GameFream gamefream=null;
     public static GamePlayer gameplayer=null;
     public static GameLogin gamelogin = null;
@@ -29,8 +29,9 @@ public class GameLogin extends javax.swing.JFrame {
         GameFream.setStyle();
 		initComponents();
         setTitle("连连看");
-		setSize(650, 600);//设置窗口的大小 （宽，高）
-		setLocation(450, 200);//窗口在桌面位置（左右，上下）
+        setSize(650, 570);// 设置窗口的大小 （宽，高）
+        setLocation(650, 200);// 窗口在桌面位置（左右，上下）
+        setResizable(false);// 设置不可自由改变窗口大小
         ImageIcon background = new ImageIcon("res/icons/bg3.jpg");// 把背景图片显示在一个标签里面
 		JLabel label = new JLabel(background);
 		label.setBounds(0, 0, this.getWidth(), this.getHeight());// 把标签的大小位置设置为图片刚好填充整个面板 
@@ -73,7 +74,7 @@ public class GameLogin extends javax.swing.JFrame {
 		});
 
         jButton3.setFont(new java.awt.Font("汉仪小麦简", 0, 18));
-		jButton3.setText("\u5f97\u5206\u699c");
+        jButton3.setText("英雄榜");
 		jButton3.addActionListener(new java.awt.event.ActionListener() {
 			@Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,77 +107,57 @@ public class GameLogin extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("汉仪小麦简", 1, 48));
         jLabel2.setText("Welcome");
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
-				getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						javax.swing.GroupLayout.Alignment.TRAILING,
-						layout.createSequentialGroup()
-								.addContainerGap(386, Short.MAX_VALUE)
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(jButton2)
-												.addComponent(jButton1)
-												.addComponent(jButton3))
-								.addGap(288, 288, 288))
-				.addGroup(
-						javax.swing.GroupLayout.Alignment.TRAILING,
-						layout.createSequentialGroup()
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.TRAILING)
-												.addGroup(
-														layout.createSequentialGroup()
-																.addContainerGap()
-																.addComponent(
-																		jLabel2))
-												.addGroup(
-														layout.createSequentialGroup()
-																.addGap(137,
-																		137,
-																		137)
-																.addComponent(
-																		jLabel1)
-																.addPreferredGap(
-																		javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																		170,
-																		Short.MAX_VALUE)
-																.addComponent(
-																		jTextField1,
-																		javax.swing.GroupLayout.PREFERRED_SIZE,
-																		130,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)))
-								.addGap(83, 83, 83).addComponent(jButton4)
-								.addGap(100, 100, 100)));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addGap(83, 83, 83)
-								.addComponent(jLabel2)
-								.addGap(78, 78, 78)
-								.addComponent(jButton1)
-								.addGap(33, 33, 33)
-								.addComponent(jButton2)
-								.addGap(39, 39, 39)
-								.addComponent(jButton3)
-								.addGap(58, 58, 58)
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(jButton4)
-												.addComponent(jLabel1)
-												.addComponent(
-														jTextField1,
-														javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(164, Short.MAX_VALUE)));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addContainerGap(327, Short.MAX_VALUE)
+                        .addGroup(layout
+                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                        layout.createSequentialGroup().addComponent(jLabel2)
+                                                .addGap(193, 193, 193))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                        layout.createSequentialGroup().addGroup(layout
+                                                .createParallelGroup(
+                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(
+                                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                                        layout.createSequentialGroup().addGroup(
+                                                                layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jButton2)
+                                                                        .addComponent(jButton1)
+                                                                        .addComponent(jButton3))
+                                                                .addGap(123, 123, 123))
+                                                .addGroup(
+                                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                                        layout.createSequentialGroup()
+                                                                .addComponent(jLabel1)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(jTextField1,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                        130,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jButton4)))
+                                                .addGap(138, 138, 138)))));
+        layout.setVerticalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addGap(79, 79, 79).addComponent(jLabel2)
+                        .addGap(72, 72, 72).addComponent(jButton1).addGap(33, 33, 33)
+                        .addComponent(jButton2).addGap(39, 39, 39).addComponent(jButton3)
+                        .addGap(58, 58, 58)
+                        .addGroup(layout
+                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1).addComponent(jButton4))
+                        .addContainerGap(174, Short.MAX_VALUE)));
 
-		pack();
+        pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
 
@@ -193,7 +174,7 @@ public class GameLogin extends javax.swing.JFrame {
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		dispose();
+        System.exit(0);
 	}
 
 	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,7 +183,7 @@ public class GameLogin extends javax.swing.JFrame {
 
 	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
 
-		String text = jTextField1.getText();
+        String text = jTextField1.getText().trim();
 		String s = "";
 		if (s.equals(text)) {
             new NameFalse().setVisible(true);// 显示修改失败界面

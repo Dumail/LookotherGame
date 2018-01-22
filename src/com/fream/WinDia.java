@@ -15,19 +15,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
+ * 胜利和过关画面弹窗
+ * 
  * @author PCF
  */
 public class WinDia extends JDialog
 {
-
+    private static final long serialVersionUID = 7800129376469384490L;
     private final JPanel contentPanel = new JPanel();
 
     /**
-     * Create the dialog.
+     * @param kind 种类 1过关;2通关
      */
     public WinDia(int kind)
     {
-        setBounds(600, 300, 497, 300);
+        setBounds(650, 300, 504, 300);// 设置位置和长宽
+        setResizable(false);// 设置不可自由改变窗口大小
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
@@ -39,6 +42,7 @@ public class WinDia extends JDialog
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JLabel lblNewLabel = new JLabel("00");
+                // 设置提示信息
                 if (kind == 1)
                     lblNewLabel.setText("恭喜你，完成此关卡！");
                 else
@@ -48,6 +52,7 @@ public class WinDia extends JDialog
             }
             {
                 JButton cancelButton = new JButton("进入下一关");
+                // 设置按钮信息
                 if (kind != 1)
                     cancelButton.setText("返回主界面");
                 cancelButton.addMouseListener(new MouseAdapter()
@@ -55,11 +60,11 @@ public class WinDia extends JDialog
                     @Override
                     public void mouseClicked(MouseEvent e)
                     {
-                        if (kind != 1)
+                        if (kind != 1)// 通关则返回主界面
                         {
                             GameLogin.gamelogin.setVisible(true);
                         }
-                        dispose();
+                        dispose();// 销毁
                     }
                 });
                 cancelButton.setFont(new Font("浪漫雅圆", Font.PLAIN, 18));

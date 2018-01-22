@@ -5,12 +5,16 @@ package com.fream;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import com.icons.IconManager;
 import com.model.Music;
@@ -23,15 +27,18 @@ import com.model.PlayerServer;
  */
 public class GameInfo extends JPanel
 {
-    private long time = 600 * 800; // 限定时间五分钟
+    private static final long serialVersionUID = 5288370214477309269L;
+    private long time = 600 * 600; // 限定时间六分钟
     private GamePanel gpGamePanel; // 游戏主界面
     private boolean stoped = false;
-    private int times_hint = 3;// 提示次数
-    private int times_resort = 5;// 重排次数
+    private int times_hint = 4;// 提示次数
+    private int times_resort = 3;// 重排次数
     Timer timer = new Timer();// 计时器
     JLabel lblNewLabel = null;// 分数牌
     private Music reMusic = new Music("resort");
     private Music hiMusic = new Music("hint");
+    JButton btnNewButton_1 = new JButton("提示x4");
+    JButton btnx = new JButton("洗牌x3");
     JLabel label;
     /**
      * Create the panel.
@@ -65,9 +72,17 @@ public class GameInfo extends JPanel
             {
                 stoped = !stoped;
                 if (stoped)
+                {
                     btnNewButton.setText("继续");
+                    btnNewButton_1.setVisible(false);
+                    btnx.setVisible(false);
+                }
                 else
+                {
                     btnNewButton.setText("暂停");
+                    btnNewButton_1.setVisible(true);
+                    btnx.setVisible(true);
+                }
                 timer.setStoped(stoped);
                 gpGamePanel.pause(stoped);
             }
@@ -76,7 +91,6 @@ public class GameInfo extends JPanel
         btnNewButton.setBounds(103, 388, 97, 60);
         add(btnNewButton);
         // 提示按钮
-        JButton btnNewButton_1 = new JButton("提示x3");
         btnNewButton_1.addMouseMotionListener(new MouseMotionAdapter()
         {
             @Override
@@ -104,7 +118,7 @@ public class GameInfo extends JPanel
                     }
                 } else
                 {
-                    System.out.println("分数不够");
+                    JOptionPane.showMessageDialog(gpGamePanel, "分数不足");
                 }
             }
         });
@@ -119,7 +133,6 @@ public class GameInfo extends JPanel
         lblNewLabel.setBounds(90, 250, 145, 63);
         add(lblNewLabel);
 
-        JButton btnx = new JButton("洗牌x3");
         btnx.addMouseMotionListener(new MouseMotionAdapter()
         {
             @Override
@@ -146,7 +159,7 @@ public class GameInfo extends JPanel
                         btnx.setEnabled(false);
                     }
                 } else
-                    System.out.println("分数不够");
+                    JOptionPane.showMessageDialog(gpGamePanel, "分数不足");
             }
         });
         btnx.setFont(new Font("汉仪小麦体简", Font.PLAIN, 18));
@@ -209,5 +222,19 @@ public class GameInfo extends JPanel
             }
         }
         lblNewLabel.setText(score);
+    }
+
+    /*
+     * （非 Javadoc）
+     * 
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        // 绘制底纹
+        Image img = new ImageIcon("res/icons/bg5.jpg").getImage();
+        g.drawImage(img, 0, 0, null);
     }
 }

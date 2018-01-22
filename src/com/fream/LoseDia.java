@@ -46,8 +46,9 @@ public class LoseDia extends JDialog
      */
     public LoseDia(int score)
     {
-        setBounds(600, 300, 371, 303);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setBounds(650, 300, 371, 303);// 设置坐标和边框
+        setResizable(false);// 设置不可自由改变窗口大小
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);// 设置默认关闭方式
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,6 +58,7 @@ public class LoseDia extends JDialog
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
+                // 返回按钮
                 JButton okButton = new JButton("返回主界面");
                 okButton.setFont(new Font("浪漫雅圆", Font.PLAIN, 14));
                 okButton.addMouseListener(new MouseAdapter()
@@ -65,7 +67,7 @@ public class LoseDia extends JDialog
                     public void mouseClicked(MouseEvent e)
                     {
                         GameLogin.gamelogin.setVisible(true);// 显示登录界面
-                        dispose();
+                        dispose();// 销毁
                     }
                 });
                 {
@@ -74,7 +76,7 @@ public class LoseDia extends JDialog
                     buttonPane.add(lblNewLabel);
                 }
                 {
-                    JLabel lblNewLabel_1 = new JLabel(score + "分");
+                    JLabel lblNewLabel_1 = new JLabel(score + "分");// 显示得分
                     lblNewLabel_1.setForeground(Color.CYAN);
                     lblNewLabel_1.setFont(new Font("汉仪小麦体简", Font.PLAIN, 18));
                     buttonPane.add(lblNewLabel_1);

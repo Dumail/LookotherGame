@@ -18,13 +18,15 @@ import com.model.PlayerServer;
  * @author __USER__
  */
 public class GameScores extends javax.swing.JFrame {
-	String[] thead = new String[] { "排名", "姓名", "得分" };
-    String[][] scores = PlayerServer.getScoreTable();
+    private static final long serialVersionUID = -934686323308121689L;
+    String[] thead = new String[] {"排名", "姓名", "得分"};// 表格列信息
+    String[][] scores = PlayerServer.getScoreTable();// 分数表格数组
 
 	public GameScores() {
 		initComponents();
 		setSize(700, 600);//设置窗口的大小 （宽，高）
-		setLocation(450, 200);//窗口在桌面位置（左右，上下）
+        setLocation(650, 200);// 窗口在桌面位置（左右，上下）
+        setResizable(false);// 设置不可自由改变窗口大小
         ImageIcon background = new ImageIcon("res/icons/bg4.jpg");// 吧背景图片显示在一个标签里面
 		JLabel label = new JLabel(background);
 		label.setBounds(0, 0, this.getWidth(), this.getHeight());// 把标签的大小位置设置为图片刚好填充整个面板 
@@ -59,9 +61,8 @@ public class GameScores extends javax.swing.JFrame {
 		scrollPane1.add(jScrollPane1);
 
         jTextLabel.setBackground(new java.awt.Color(204, 255, 255));
-		jTextLabel.setFont(new java.awt.Font("汉仪小麦简", 1, 24));
-        jTextLabel.setText("      \u5f97\u5206\u699c");// 得分榜文字
-
+        jTextLabel.setFont(new java.awt.Font("汉仪小麦简", 1, 28));
+        jTextLabel.setText("     英雄榜");// 得分榜文字
 
 		jButton1.setFont(new java.awt.Font("汉仪小麦简", 1, 14));
         jButton1.setText("\u8fd4\u56de");// 返回
@@ -73,63 +74,38 @@ public class GameScores extends javax.swing.JFrame {
 		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
-				getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.LEADING)
-												.addGroup(
-														layout.createSequentialGroup()
-																.addContainerGap()
-																.addComponent(
-																		scrollPane1,
-																		javax.swing.GroupLayout.PREFERRED_SIZE,
-																		669,
-																		javax.swing.GroupLayout.PREFERRED_SIZE))
-												.addGroup(
-														layout.createSequentialGroup()
-																.addGap(318,
-																		318,
-																		318)
-																.addComponent(
-																		jButton1))
-												.addGroup(
-														layout.createSequentialGroup()
-																.addGap(271,
-																		271,
-																		271)
-																.addComponent(
-																		jTextLabel,
-																		javax.swing.GroupLayout.PREFERRED_SIZE,
-																		javax.swing.GroupLayout.DEFAULT_SIZE,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)))
-								.addContainerGap(119, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				layout.createSequentialGroup()
-						.addGap(54, 54, 54)
-						.addComponent(jTextLabel,
-								javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(65, 65, 65)
-						.addComponent(scrollPane1,
-								javax.swing.GroupLayout.PREFERRED_SIZE, 106,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(39, 39, 39).addComponent(jButton1)
-						.addContainerGap(107, Short.MAX_VALUE)));
+                getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addGap(108, 108, 108).addGroup(layout
+                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup().addGap(165, 165, 165).addComponent(
+                                jTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup().addGap(209, 209, 209)
+                                .addComponent(jButton1))
+                        .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        474, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(216, Short.MAX_VALUE)));
+        layout.setVerticalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addGap(43, 43, 43)
+                        .addComponent(jTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)
+                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77).addComponent(jButton1)
+                        .addContainerGap(83, Short.MAX_VALUE)));
 
-		pack();
+        pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
-
-	private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		dispose();
